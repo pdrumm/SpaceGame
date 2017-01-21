@@ -4,6 +4,10 @@ class GameEngine {
     this.CANVAS_WIDTH = width; //window.innerWidth;
     this.CANVAS_HEIGHT = height; // window.innerHeight;
     this.canvas = canvas;
+    this.init();
+  }
+
+  init() {
     this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 50);
     this.astronaut = new Astronaut(100, 100, 20, 20, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     this.asteroids = new Array();
@@ -11,7 +15,7 @@ class GameEngine {
     this.createAsteroid();
     this.lastAsteroid = Date.now();
     this.keys = new Array();
-
+    this.gameOver = false;
   }
 
   update() {
@@ -50,8 +54,11 @@ class GameEngine {
         i += -1;
       }
     }
+
     var dead = this.astronaut.collideWithAsteroid(this.asteroids);
-    console.log(dead);
+    if (dead != -1) {
+      this.gameOver = true;
+    }
   }
 
   draw() {
@@ -72,6 +79,15 @@ class GameEngine {
 
     //this.player.draw(this.canvas);
     //this.bricks.forEach(function(brick) {brick.draw(canvas)});
+
+    if (this.gameOver) {
+      canvas.fillStyle = "#000000";
+      canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+      canvas.fillStyle = "#666666";
+      canvas.textAlign = "center";
+      canvas.font = "18px serif";
+      canvas.fillText("Game Over :( Spacebar to play again", this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2);
+    }
   }
 
   keyDownHandler(event) {
@@ -85,6 +101,9 @@ class GameEngine {
     var keyPressed = event.key.toLowerCase();
     if(this.keys.includes(keyPressed)) {
       this.keys.splice(this.keys.indexOf(keyPressed), 1);
+    }
+    if (keyPressed == " ") {
+      this.init();
     }
   }
 
@@ -137,9 +156,6 @@ class GameEngine {
     var centerX = this.astronaut.getCenterX();
     var centerY = this.astronaut.getCenterY();
     var angle = 180 + Math.atan2(centerY - mouseY, centerX - mouseX) * 180 / Math.PI;
-    console.log(angle);
-    console.log("X diff: " + (centerX - mouseX));
-    console.log("Y diff: " + (centerY - mouseY));
     var speedX = 0;
     var speedY = 0;
     var boost = 10;
@@ -160,7 +176,6 @@ class GameEngine {
       speedY = - (90 - angle) / 90 * boost;
     }
     this.hammers.push(new Hammer(centerX, centerY, speedX, speedY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
-    console.log(this.hammers.length);
   }
 
 }
