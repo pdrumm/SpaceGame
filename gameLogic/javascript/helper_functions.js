@@ -46,28 +46,8 @@ class HelperFunctions {
 
   // creates a new hammer and adds it to the list of hammers
   static createHammer(mouseX, mouseY, centerX, centerY) {
-    // centerX, centerY, speedX, speedY, canvasWidth, canvasHeight
     var angle = 180 + Math.atan2(centerY - mouseY, centerX - mouseX) * 180 / Math.PI;
-    var speedX = 0;
-    var speedY = 0;
-    var boost = 10;
-    if (angle < 90) {
-      speedX = (90 - angle) / 90 * boost;
-      speedY = (angle) / 90 * boost;
-    } else if (angle < 180) {
-      angle = angle - 90;
-      speedX = - (angle) / 90 * boost;
-      speedY = (90 - angle) / 90 * boost;
-    } else if (angle < 270) {
-      angle = angle - 180;
-      speedX = - (90 - angle) / 90 * boost;
-      speedY = (- angle) / 90 * boost;
-    } else if (angle < 360) {
-      angle = angle - 270;
-      speedX = (angle) / 90 * boost;
-      speedY = - (90 - angle) / 90 * boost;
-    }
-    return new Hammer(centerX, centerY, speedX, speedY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    return new Hammer(centerX, centerY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, angle);
   }
 
   // creates a new asteroid and adds it to the list of asteroids

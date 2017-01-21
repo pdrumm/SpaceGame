@@ -5,13 +5,14 @@ class Base {
     this.centerY = centerY;
     this.width = width;
     this.height = height;
-    this.angle = 0;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
+    this.img = document.getElementById(img);
+
+    this.angle = 0;
     this.lastTime = Date.now();
     this.speedX = 0;
     this.speedY = 0;
-    this.img = document.getElementById(img);
   }
 
   draw(canvas) {

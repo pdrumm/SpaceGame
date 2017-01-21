@@ -1,18 +1,30 @@
 class Hammer extends Base{
 
-  constructor(centerX, centerY, speedX, speedY, canvasWidth, canvasHeight) {
-    super(centerX, centerY, 20, 20, canvasWidth, canvasHeight, "hammer");
-    this.speedX = speedX;
-    this.speedY = speedY;
+  constructor(centerX, centerY, canvasWidth, canvasHeight, direction) {
+    super(centerX, centerY, 20, 40, canvasWidth, canvasHeight, "hammer");
+    this.direction = direction;
+    this.originX = centerX;
+    this.originY = centerY;
+    this.originTime = Date.now();
   }
 
   update() {
-    this.centerX += this.speedX;
-    this.centerY += this.speedY;
-
+    
+    var pixelsPerSecond = 200;
+    this.centerX = this.originX + this.getDirectionX(this.direction) * pixelsPerSecond * (Date.now() - this.originTime) / 1000;
+    this.centerY = this.originY + this.getDirectionY(this.direction) * pixelsPerSecond * (Date.now() - this.originTime) / 1000;
+    // update rotation
     this.angle = (this.angle + 90 * (Date.now() - this.lastTime) / 250) % 360;
     this.lastTime = Date.now();
     return HelperFunctions.leaveScreen(this, this.canvasWidth, this.canvasHeight);
+  }
+
+  getDirectionX(direction) {
+    return Math.cos(direction * Math.PI / 180);
+  }
+
+  getDirectionY(direction) {
+    return Math.sin(direction * Math.PI / 180);
   }
 
   collideWithAsteroid(asteroids) {
