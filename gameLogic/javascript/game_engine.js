@@ -20,6 +20,7 @@ class GameEngine {
     this.keys = new Array();
     // if the game is over
     this.gameOver = false;
+    this.oxygen = new Oxygen(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT - 25, this.CANVAS_WIDTH, 50);
   }
 
   update() {
@@ -47,6 +48,9 @@ class GameEngine {
         this.hammers.splice(i, 1);
         i += -1;
       }
+    }
+    if (this.oxygen.update()) {
+        this.gameOver = true;
     }
     // check all collisions
     this.collisions();
@@ -97,6 +101,7 @@ class GameEngine {
     for (var i = 0; i < this.hammers.length; i++) {
       this.hammers[i].draw(this.canvas);
     }
+    this.oxygen.draw(this.canvas);
     // game over screen
     if (this.gameOver) {
       canvas.fillStyle = "#000000";
