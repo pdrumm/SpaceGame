@@ -7,61 +7,74 @@ class GameEngine {
     this.init();
   }
 
+  // initializes the game
+  // this is separate from the constructor
   init() {
     this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 50);
     this.astronaut = new Astronaut(100, 100, 20, 20, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     this.asteroids = new Array();
     this.hammers = new Array();
-    this.createAsteroid();
+    // the time when the last asteroid was created
     this.lastAsteroid = Date.now();
+    // all keys that are currently being pressed down
     this.keys = new Array();
+    // if the game is over
     this.gameOver = false;
   }
 
   update() {
+    // create a new asteroid after a certain amount of time
     if (Date.now() - this.lastAsteroid > 500) {
-      this.createAsteroid();
+      this.asteroids.push(HelperFunctions.createAsteroid(this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
       this.lastAsteroid = Date.now();
     }
-
-    // this.player.update(this.bricks, this.keys);
+    // update astronaut
     this.astronaut.update(this.keys);
+    // update asteroids
     for (var i = 0; i < this.asteroids.length; i++) {
       var remove = this.asteroids[i].update();
+      // if asteroid is off screen
       if (remove) {
         this.asteroids.splice(i, 1);
         i += -1;
       }
     }
-
+    // update hammers
     for (var i = 0; i < this.hammers.length; i++) {
       var remove = this.hammers[i].update();
+      // if hammer is off screen
       if (remove) {
         this.hammers.splice(i, 1);
         i += -1;
       }
     }
-    
+    // check all collisions
     this.collisions();
   }
 
   // detects any collisions
   collisions() {
+    // check all hammers
     for (var i = 0; i < this.hammers.length; i++) {
       var index = this.hammers[i].collideWithAsteroid(this.asteroids);
+      // if a hammer collides with an asteroid
       if (index != -1) {
+        // destroy hammer
         this.hammers.splice(i, 1);
+        // destroy asteroid
         this.asteroids.splice(index, 1);
         i += -1;
       }
     }
-
+    // check if asteroid hits astronaut
     var dead = this.astronaut.collideWithAsteroid(this.asteroids);
+    // kill astronaut
     if (dead != -1) {
       this.gameOver = true;
     }
-
+    // check if asteroid hits rocket
     var crash = this.rocket.collideWithAsteroid(this.asteroids);
+    // kill rocket
     if (crash != -1) {
       this.gameOver = true;
     }
@@ -116,75 +129,6 @@ class GameEngine {
 
   // when the mouse is clicked
   mouseDownHandler(event) {
-    this.createHammer(event.pageX - 24, event.pageY - 8);
+    this.hammers.push(HelperFunctions.createHammer(event.pageX - 24, event.pageY - 8, this.astronaut.getCenterX(), this.astronaut.getCenterY()));
   }
-
-  // creates a new asteroid and adds it to the list of asteroids
-  createAsteroid() {
-    //centerX, centerY, size, angle, speedX, speedY, canvasWidth, canvasHeight
-    var entering = Math.floor((Math.random() * 4));
-    if (entering == 0) {
-      var centerX = Math.floor((Math.random() * this.CANVAS_WIDTH));
-      var centerY = 0;
-      var size = Math.floor((Math.random() * 3) + 1);
-      var angle = Math.floor((Math.random() * 360));
-      var speedX = Math.floor((Math.random() * 8) - 4);
-      var speedY = Math.floor((Math.random() * 3) + 1);
-      this.asteroids.push(new Asteroid(centerX, centerY, size, angle, speedX, speedY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
-    } else if (entering == 1) {
-      var centerX = Math.floor((Math.random() * this.CANVAS_WIDTH));
-      var centerY = this.CANVAS_HEIGHT;
-      var size = Math.floor((Math.random() * 3) + 1);
-      var angle = Math.floor((Math.random() * 360));
-      var speedX = Math.floor((Math.random() * 8) - 4);
-      var speedY = - Math.floor((Math.random() * 3) + 1);
-      this.asteroids.push(new Asteroid(centerX, centerY, size, angle, speedX, speedY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
-    } else if (entering == 2) {
-      var centerX = 0;
-      var centerY = Math.floor((Math.random() * this.CANVAS_HEIGHT));
-      var size = Math.floor((Math.random() * 3) + 1);
-      var angle = Math.floor((Math.random() * 360));
-      var speedX = Math.floor((Math.random() * 3) + 1);
-      var speedY = Math.floor((Math.random() * 8) - 4);
-      this.asteroids.push(new Asteroid(centerX, centerY, size, angle, speedX, speedY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
-    } else if (entering == 3) {
-      var centerX = this.CANVAS_WIDTH;
-      var centerY = Math.floor((Math.random() * this.CANVAS_HEIGHT));
-      var size = Math.floor((Math.random() * 3) + 1);
-      var angle = Math.floor((Math.random() * 360));
-      var speedX = - Math.floor((Math.random() * 3) + 1);
-      var speedY = Math.floor((Math.random() * 8) - 4);
-      this.asteroids.push(new Asteroid(centerX, centerY, size, angle, speedX, speedY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
-    }
-
-  }
-
-  // creates a new hammer and adds it to the list of hammers
-  createHammer(mouseX, mouseY) {
-    // centerX, centerY, speedX, speedY, canvasWidth, canvasHeight
-    var centerX = this.astronaut.getCenterX();
-    var centerY = this.astronaut.getCenterY();
-    var angle = 180 + Math.atan2(centerY - mouseY, centerX - mouseX) * 180 / Math.PI;
-    var speedX = 0;
-    var speedY = 0;
-    var boost = 10;
-    if (angle < 90) {
-      speedX = (90 - angle) / 90 * boost;
-      speedY = (angle) / 90 * boost;
-    } else if (angle < 180) {
-      angle = angle - 90;
-      speedX = - (angle) / 90 * boost;
-      speedY = (90 - angle) / 90 * boost;
-    } else if (angle < 270) {
-      angle = angle - 180;
-      speedX = - (90 - angle) / 90 * boost;
-      speedY = (- angle) / 90 * boost;
-    } else if (angle < 360) {
-      angle = angle - 270;
-      speedX = (angle) / 90 * boost;
-      speedY = - (90 - angle) / 90 * boost;
-    }
-    this.hammers.push(new Hammer(centerX, centerY, speedX, speedY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
-  }
-
 }
