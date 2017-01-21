@@ -10,20 +10,9 @@ class Hammer extends Base{
     this.centerX += this.speedX;
     this.centerY += this.speedY;
 
-    // detect whether hammer is off the screen
-    if (this.canvasWidth < this.centerX - this.width) {
-      return true;
-    } else if (0 > this.centerX + this.width) {
-      return true;
-    } else if (this.canvasHeight < this.centerY - this.height) {
-      return true;
-    } else if (0 > this.centerY + this.height) {
-      return true;
-    }
-
     this.angle = (this.angle + 90 * (Date.now() - this.lastTime) / 250) % 360;
     this.lastTime = Date.now();
-    return false;
+    return HelperFunctions.leaveScreen(this, this.canvasWidth, this.canvasHeight);
   }
 
   collideWithAsteroid(asteroids) {

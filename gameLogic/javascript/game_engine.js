@@ -41,7 +41,7 @@ class GameEngine {
         i += -1;
       }
     }
-
+    
     this.collisions();
   }
 

@@ -29,4 +29,18 @@ class HelperFunctions {
     }
     return -1;
   }
+
+  static leaveScreen(obj, canvasWidth, canvasHeight) {
+    // detect whether asteroid goes off the screen
+    if (canvasWidth < obj.getCenterX() - obj.getWidth()) {
+      return true;
+    } else if (0 > obj.getCenterX() + obj.getWidth()) {
+      return true;
+    } else if (canvasHeight < obj.getCenterY() - obj.getHeight()) {
+      return true;
+    } else if (0 > obj.getCenterY() + obj.getHeight()) {
+      return true;
+    }
+    return false;
+  }
 }
