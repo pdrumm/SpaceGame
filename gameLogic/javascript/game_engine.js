@@ -19,7 +19,7 @@ class GameEngine {
   }
 
   update() {
-    if (Date.now() - this.lastAsteroid > 2000) {
+    if (Date.now() - this.lastAsteroid > 500) {
       this.createAsteroid();
       this.lastAsteroid = Date.now();
     }
@@ -45,6 +45,7 @@ class GameEngine {
     this.collisions();
   }
 
+  // detects any collisions
   collisions() {
     for (var i = 0; i < this.asteroids.length; i++) {
       var index = this.asteroids[i].collideWithHammer(this.hammers);
@@ -59,27 +60,31 @@ class GameEngine {
     if (dead != -1) {
       this.gameOver = true;
     }
+
+    var crash = this.rocket.collideWithAsteroid(this.asteroids);
+    if (crash != -1) {
+      this.gameOver = true;
+    }
   }
 
   draw() {
-    // i assume this line clears everything
+    // resetting canvas
     this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     this.canvas.fillStyle = "#C0E3C0";
     this.canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
-
+    // rocket
     this.rocket.draw(this.canvas);
+    // astronaut
     this.astronaut.draw(this.canvas);
+    // asteroids
     for (var i = 0; i < this.asteroids.length; i++) {
       this.asteroids[i].draw(this.canvas);
     }
-
+    // hammers
     for (var i = 0; i < this.hammers.length; i++) {
       this.hammers[i].draw(this.canvas);
     }
-
-    //this.player.draw(this.canvas);
-    //this.bricks.forEach(function(brick) {brick.draw(canvas)});
-
+    // game over screen
     if (this.gameOver) {
       canvas.fillStyle = "#000000";
       canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
@@ -90,6 +95,7 @@ class GameEngine {
     }
   }
 
+  // when a key is pressed down
   keyDownHandler(event) {
     var keyPressed = event.key.toLowerCase();
     if (!this.keys.includes(keyPressed)) {
@@ -97,23 +103,25 @@ class GameEngine {
     }
   }
 
+  // when a key is released
   keyUpHandler(event) {
     var keyPressed = event.key.toLowerCase();
     if(this.keys.includes(keyPressed)) {
       this.keys.splice(this.keys.indexOf(keyPressed), 1);
     }
-    if (keyPressed == " ") {
+    if (this.gameOver && keyPressed == " ") {
       this.init();
     }
   }
 
+  // when the mouse is clicked
   mouseDownHandler(event) {
     this.createHammer(event.pageX - 24, event.pageY - 8);
   }
 
+  // creates a new asteroid and adds it to the list of asteroids
   createAsteroid() {
     //centerX, centerY, size, angle, speedX, speedY, canvasWidth, canvasHeight
-
     var entering = Math.floor((Math.random() * 4));
     if (entering == 0) {
       var centerX = Math.floor((Math.random() * this.CANVAS_WIDTH));
@@ -151,6 +159,7 @@ class GameEngine {
 
   }
 
+  // creates a new hammer and adds it to the list of hammers
   createHammer(mouseX, mouseY) {
     // centerX, centerY, speedX, speedY, canvasWidth, canvasHeight
     var centerX = this.astronaut.getCenterX();

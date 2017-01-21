@@ -17,6 +17,29 @@ class Rocket {
     canvas.fillRect(this.centerX - this.width / 2, this.centerY - this.height / 2, this.width, this.height);
   }
 
+  collideWithAsteroid(asteroids) {
+    for (var i = 0; i < asteroids.length; i++) {
+      var asteroid = asteroids[i];
+      if (this.intersects(this.centerX - this.width / 2, this.centerX + this.width / 2, asteroid.getCenterX() - asteroid.getWidth() / 2, asteroid.getCenterX() + asteroid.getWidth() / 2)) {
+        if (this.intersects(this.centerY - this.height / 2, this.centerY + this.height / 2, asteroid.getCenterY() - asteroid.getHeight() / 2, asteroid.getCenterY() + asteroid.getHeight() / 2)) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+
+  intersects(a1, a2, b1, b2) {
+    if (a2 < b1) {
+      return false;
+    }
+    if (a1 > b2) {
+      return false;
+    }
+
+    return true;
+  }
+
   getCenterX() {
     return this.centerX;
   }
