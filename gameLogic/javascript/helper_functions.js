@@ -19,4 +19,14 @@ class HelperFunctions {
 
     return true;
   }
+
+  static collideWithAsteroid(obj, asteroids) {
+    for (var i = 0; i < asteroids.length; i++) {
+      var asteroid = asteroids[i];
+      if (HelperFunctions.rectIntersects(obj.centerX, obj.centerY, obj.width, obj.height, asteroid.getCenterX(), asteroid.getCenterY(), asteroid.getWidth(), asteroid.getHeight())) {
+        return i;
+      }
+    }
+    return -1;
+  }
 }

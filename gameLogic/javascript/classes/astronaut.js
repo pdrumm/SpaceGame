@@ -68,12 +68,6 @@ class Astronaut extends Base {
   }
 
   collideWithAsteroid(asteroids) {
-    for (var i = 0; i < asteroids.length; i++) {
-      var asteroid = asteroids[i];
-      if (HelperFunctions.rectIntersects(this.centerX, this.centerY, this.width, this.height, asteroid.getCenterX(), asteroid.getCenterY(), asteroid.getWidth(), asteroid.getHeight())) {
-        return i;
-      }
-    }
-    return -1;
+    return HelperFunctions.collideWithAsteroid(this, asteroids);
   }
 }
