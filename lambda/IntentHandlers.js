@@ -5,7 +5,7 @@
 var HealthDropIntent = require("./intents/HealthDrop");
 
 var registerIntentHandlers = function (intentHandlers) {
-    intentHandlers.HealthDropIntent = HealthDropIntent;
+    intentHandlers.HealthDrop = HealthDropIntent;
 
     //intentHandlers.PlayerCountIntent = PlayerCountIntent;
     //intentHandlers.SelectPokemonIntent = SelectPokemonIntent;
