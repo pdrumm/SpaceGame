@@ -12,6 +12,7 @@ class GameEngine {
   init() {
     this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 50);
     this.astronaut = new Astronaut(100, 100, 20, 20, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    setAstronauts(100, 100, 20, 20, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     this.asteroids = new Array();
     this.hammers = new Array();
     // the time when the last asteroid was created
@@ -31,6 +32,7 @@ class GameEngine {
     }
     // update astronaut
     this.astronaut.update(this.keys);
+    updateAstronauts(this.astronaut.centerX, this.astronaut.centerY, this.astronaut.angle, 1);
     // update asteroids
     for (var i = 0; i < this.asteroids.length; i++) {
       var remove = this.asteroids[i].update();

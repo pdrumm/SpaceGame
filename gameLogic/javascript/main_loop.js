@@ -8,6 +8,16 @@ this.canvasElement.appendTo('body');
 var gameEngine = new GameEngine(CANVAS_WIDTH, CANVAS_HEIGHT, canvas);
 var FPS = 30;
 
+//Listen from DB to space
+var astronautRef = firebase.database().ref('/astronauts/');
+
+astronautRef.on('child_changed', function(snapshot) {
+  console.log(snapshot.val());
+  console.log(snapshot.key);
+	// if snapshot.key != ME
+	// 	update Astronaut
+	
+});
 
 document.addEventListener("keydown", function(event) {gameEngine.keyDownHandler(event);}, false);
 document.addEventListener("keyup", function(event) {gameEngine.keyUpHandler(event);}, false);
