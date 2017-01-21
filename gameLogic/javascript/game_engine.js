@@ -47,11 +47,11 @@ class GameEngine {
 
   // detects any collisions
   collisions() {
-    for (var i = 0; i < this.asteroids.length; i++) {
-      var index = this.asteroids[i].collideWithHammer(this.hammers);
+    for (var i = 0; i < this.hammers.length; i++) {
+      var index = this.hammers[i].collideWithAsteroid(this.asteroids);
       if (index != -1) {
-        this.asteroids.splice(i, 1);
-        this.hammers.splice(index, 1);
+        this.hammers.splice(i, 1);
+        this.asteroids.splice(index, 1);
         i += -1;
       }
     }
