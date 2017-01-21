@@ -5,7 +5,7 @@ var intentHandlers = require("./IntentHandlers");
 /**
  * App ID for the skill
  */
-var APP_ID = "amzn1.ask.skill.448c9d95-9faa-4e4e-a017-44f39965b1e0";
+var APP_ID = "amzn1.ask.skill.94c25382-e9d2-4825-a57e-48585a52ee1d";
 
 /*
  * The AlexaSkill prototype and helper functions
