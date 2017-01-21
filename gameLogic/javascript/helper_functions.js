@@ -44,6 +44,14 @@ class HelperFunctions {
     return false;
   }
 
+  static getDirectionX(direction) {
+    return Math.cos(direction * Math.PI / 180);
+  }
+
+  static getDirectionY(direction) {
+    return Math.sin(direction * Math.PI / 180);
+  }
+
   // creates a new hammer and adds it to the list of hammers
   static createHammer(mouseX, mouseY, centerX, centerY) {
     var angle = 180 + Math.atan2(centerY - mouseY, centerX - mouseX) * 180 / Math.PI;
@@ -55,37 +63,37 @@ class HelperFunctions {
     //centerX, centerY, size, angle, speedX, speedY, canvasWidth, canvasHeight
     var entering = Math.floor((Math.random() * 4));
     if (entering == 0) {
+      // top of screen
       var centerX = Math.floor((Math.random() * canvasWidth));
       var centerY = 0;
       var size = Math.floor((Math.random() * 3) + 1);
-      var angle = Math.floor((Math.random() * 360));
-      var speedX = Math.floor((Math.random() * 8) - 4);
-      var speedY = Math.floor((Math.random() * 3) + 1);
-      return new Asteroid(centerX, centerY, size, angle, speedX, speedY, canvasWidth, canvasHeight);
+      var speed = Math.floor((Math.random() * 60) + 20);
+      var direction = Math.random() * 180 + 90;
+      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction);
     } else if (entering == 1) {
+      // right of screen
       var centerX = Math.floor((Math.random() * canvasWidth));
       var centerY = canvasHeight;
       var size = Math.floor((Math.random() * 3) + 1);
-      var angle = Math.floor((Math.random() * 360));
-      var speedX = Math.floor((Math.random() * 8) - 4);
-      var speedY = - Math.floor((Math.random() * 3) + 1);
-      return new Asteroid(centerX, centerY, size, angle, speedX, speedY, canvasWidth, canvasHeight);
+      var speed = Math.floor((Math.random() * 60) + 20);
+      var direction = Math.random() * 180 + 180;
+      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction);
     } else if (entering == 2) {
+      // bottom of screen
       var centerX = 0;
       var centerY = Math.floor((Math.random() * canvasHeight));
       var size = Math.floor((Math.random() * 3) + 1);
-      var angle = Math.floor((Math.random() * 360));
-      var speedX = Math.floor((Math.random() * 3) + 1);
-      var speedY = Math.floor((Math.random() * 8) - 4);
-      return new Asteroid(centerX, centerY, size, angle, speedX, speedY, canvasWidth, canvasHeight);
+      var speed = Math.floor((Math.random() * 60) + 20);
+      var direction = Math.random() * 180 + 270;
+      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction);
     } else if (entering == 3) {
+      // left of screen
       var centerX = canvasWidth;
       var centerY = Math.floor((Math.random() * canvasHeight));
       var size = Math.floor((Math.random() * 3) + 1);
-      var angle = Math.floor((Math.random() * 360));
-      var speedX = - Math.floor((Math.random() * 3) + 1);
-      var speedY = Math.floor((Math.random() * 8) - 4);
-      return new Asteroid(centerX, centerY, size, angle, speedX, speedY, canvasWidth, canvasHeight);
+      var speed = Math.floor((Math.random() * 60) + 20);
+      var direction = Math.random() * 180 + 90;
+      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction);
     }
   }
 }

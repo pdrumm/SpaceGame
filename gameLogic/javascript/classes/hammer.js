@@ -9,22 +9,14 @@ class Hammer extends Base{
   }
 
   update() {
-    
+
     var pixelsPerSecond = 200;
-    this.centerX = this.originX + this.getDirectionX(this.direction) * pixelsPerSecond * (Date.now() - this.originTime) / 1000;
-    this.centerY = this.originY + this.getDirectionY(this.direction) * pixelsPerSecond * (Date.now() - this.originTime) / 1000;
+    this.centerX = this.originX + HelperFunctions.getDirectionX(this.direction) * pixelsPerSecond * (Date.now() - this.originTime) / 1000;
+    this.centerY = this.originY + HelperFunctions.getDirectionY(this.direction) * pixelsPerSecond * (Date.now() - this.originTime) / 1000;
     // update rotation
     this.angle = (this.angle + 90 * (Date.now() - this.lastTime) / 250) % 360;
     this.lastTime = Date.now();
     return HelperFunctions.leaveScreen(this, this.canvasWidth, this.canvasHeight);
-  }
-
-  getDirectionX(direction) {
-    return Math.cos(direction * Math.PI / 180);
-  }
-
-  getDirectionY(direction) {
-    return Math.sin(direction * Math.PI / 180);
   }
 
   collideWithAsteroid(asteroids) {

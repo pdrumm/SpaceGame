@@ -1,18 +1,22 @@
 class Asteroid extends Base{
 
-  constructor(centerX, centerY, size, angle, speedX, speedY, canvasWidth, canvasHeight) {
+  constructor(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction) {
     super(centerX, centerY, size * 20, size * 20, canvasWidth, canvasHeight, "asteroid");
     this.size = size;
-    this.speedX = speedX;
-    this.speedY = speedY;
+    this.speed = speed;
+
+    this.direction = direction;
+    this.originX = centerX;
+    this.originY = centerY;
+    this.originTime = Date.now();
   }
 
   update() {
-    this.centerX += this.speedX;
-    this.centerY += this.speedY;
+    var pixelsPerSecond = this.speed;
+    this.centerX = this.originX + HelperFunctions.getDirectionX(this.direction) * pixelsPerSecond * (Date.now() - this.originTime) / 1000;
+    this.centerY = this.originY + HelperFunctions.getDirectionY(this.direction) * pixelsPerSecond * (Date.now() - this.originTime) / 1000;
     this.angle = (this.angle + 90 * (Date.now() - this.lastTime) / 1000) % 360;
     this.lastTime = Date.now();
-
     return HelperFunctions.leaveScreen(this, this.canvasWidth, this.canvasHeight);
   }
 }
