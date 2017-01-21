@@ -21,9 +21,11 @@ class GameEngine {
     // if the game is over
     this.gameOver = false;
     this.oxygen = new Oxygen(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT - 25, this.CANVAS_WIDTH, 50);
+    this.space = new Space(this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
   }
 
   update() {
+    this.space.update();
     // create a new asteroid after a certain amount of time
     if (Date.now() - this.lastAsteroid > 500) {
       this.asteroids.push(HelperFunctions.createAsteroid(this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
@@ -89,6 +91,7 @@ class GameEngine {
     this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     this.canvas.fillStyle = "#C0E3C0";
     this.canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    this.space.draw(this.canvas);
     // rocket
     this.rocket.draw(this.canvas);
     // astronaut
@@ -134,6 +137,7 @@ class GameEngine {
 
   // when the mouse is clicked
   mouseDownHandler(event) {
+    console.log("X: " + event.pageX + ", Y: " + event.pageY);
     this.hammers.push(HelperFunctions.createHammer(event.pageX - 24, event.pageY - 8, this.astronaut.getCenterX(), this.astronaut.getCenterY()));
   }
 }
