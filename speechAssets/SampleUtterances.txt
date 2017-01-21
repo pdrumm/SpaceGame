@@ -1,9 +1,4 @@
-PlayerCountIntent {Count}
-PlayerCountIntent {Count} players
-PlayerCountIntent There are {Count} players
-
-SelectPokemonIntent I choose you {PokemonName}
-SelectPokemonIntent {PokemonName}
-
-AttackIntent {PokemonName} use {Move}
-AttackIntent {Move}
+OxygenRefill Player {Player} needs oxygen
+OxygenRefill Player {Player} needs more oxygen
+OxygenRefill Player {Player} needs a refill
+OxygenRefill Player {Player} needs an oxygen refill

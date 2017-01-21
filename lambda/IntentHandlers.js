@@ -2,10 +2,10 @@
 //var SelectPokemonIntent = require("./intents/SelectPokemon");
 //var AttackIntent = require("./intents/Attack");
 
-var HealthDropIntent = require("./intents/HealthDrop");
+var OxygenRefillIntent = require("./intents/OxygenRefill");
 
 var registerIntentHandlers = function (intentHandlers) {
-    intentHandlers.HealthDrop = HealthDropIntent;
+    intentHandlers.OxygenRefill = OxygenRefillIntent;
 
     //intentHandlers.PlayerCountIntent = PlayerCountIntent;
     //intentHandlers.SelectPokemonIntent = SelectPokemonIntent;

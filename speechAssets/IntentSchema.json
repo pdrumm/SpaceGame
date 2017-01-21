@@ -1,36 +1,12 @@
 {
     "intents": [
     {
-        "intent": "SelectPokemonIntent",
-        "slots": 
-            [
-            {
-                "name": "PokemonName",
-                "type": "LIST_OF_POKEMON_NAMES"
-            }
-            ]
-    },
-    {
-    	"intent": "PlayerCountIntent",
+        "intent": "OxygenRefill",
         "slots":
             [
             {
-                 "name": "Count",
+                 "name": "Player",
                  "type": "AMAZON.NUMBER"
-            }
-            ]
-    },
-    {
-        "intent": "AttackIntent",
-        "slots": 
-            [
-            {
-                "name": "Pokemon",
-                "type": "LIST_OF_POKEMON_NAMES"
-            },
-            {
-                "name": "Move",
-                "type": "LIST_OF_MOVES"
             }
             ]
     }
