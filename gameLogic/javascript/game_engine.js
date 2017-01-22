@@ -106,7 +106,7 @@ class GameEngine {
     this.rocket.draw(this.canvas);
     // astronaut
     this.astronaut.draw(this.canvas);
-    for (var i = 0; i < this.astronauts.length; i++) {
+    for (var i in this.astronauts) {
       this.astronauts[i].draw(this.canvas);
     }
     // asteroids
