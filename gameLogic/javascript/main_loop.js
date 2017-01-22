@@ -1,6 +1,7 @@
 CANVAS_WIDTH = 1000;
 CANVAS_HEIGHT = 600;
 var ASTEROID_TYPE = 3;
+var FULL_HEALTH = 100;
 
 function getParameterByName(name, url) {
     if (!url) {
@@ -28,13 +29,54 @@ var FPS = 30;
 
 //Listen from DB to space
 var astronautRef = firebase.database().ref('/astronauts/');
-
 astronautRef.on('child_changed', function(snapshot) {
-  //console.log(snapshot.val());
-  //console.log(snapshot.key);
-	// if snapshot.key != ME
-	// 	update Astronaut
-	
+  if (snapshot.key =! ASTRONAUT_ID)
+    {
+      gameEngine.astronauts[snapshot.key].centerX = Astronaut(snapshot.val()["centerX"]);
+      gameEngine.astronauts[snapshot.key].centerY = Astronaut(snapshot.val()["centerY"]);
+      gameEngine.astronauts[snapshot.key].angle = Astronaut(snapshot.val()["angle"]);
+    }
+      });
+
+astronautRef.on('child_added', function(snapshot) {
+  gameEngine.astronauts[snapshot.key] = new Astronaut(
+	  snapshot.val()["centerX"], 
+	  snapshot.val()["centerY"], 
+	  snapshot.val()["width"], 
+	  snapshot.val()["height"], 
+	  CANVAS_WIDTH, 
+	  CANVAS_HEIGHT)
+});
+
+var hammerRef = firebase.database().ref('/hammers/');
+hammerRef.on('child_added', function(snapshot){
+  gameEngine.hammers.push(new Hammer(
+	  snapshot.val()["centerX"], 
+	  snapshot.val()["centerY"], 
+	  CANVAS_WIDTH, 
+	  CANVAS_HEIGHT, 
+	  snapshot.val()["angle"], 
+	  snapshot.val()["astronautId"], 
+	  snapshot.val()["startTime"], 
+	  snapshot.val()["hammerId"])
+  );
+});
+
+var asteroidRef = firebase.database().ref('/asteroids/');
+asteroidRef.on('child_added', function(snapshot){
+  gameEngine.asteroids.push(new Asteroid(
+	  snapshot.val()["centerX"], 
+	  snapshot.val()["centerY"], 
+	  snapshot.val()["size"], 
+	  snapshot.val()["speed"], 
+	  CANVAS_WIDTH, 
+	  CANVAS_HEIGHT, 
+	  snapshot.val()["angle"],
+	  snapshot.val()["astronautId"], 
+	  snapshot.val()["startTime"], 
+	  snapshot.val()["type"], 
+	  snapshot.val()["asteroidId"]
+  ));
 });
 
 document.addEventListener("keydown", function(event) {gameEngine.keyDownHandler(event);}, false);
