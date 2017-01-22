@@ -66,10 +66,7 @@ class GameEngine {
       }
     }
     if (this.astronaut.getOxygen() <= 0) {
-        this.gameOver = true;
-        var url = "./gameover.html";
-        window.location.replace(url);
-        window.location = url;
+      this.gameOverTransition("Game's over - don't hold your breath :)");
     }
     // check all collisions
     this.collisions();
@@ -93,20 +90,20 @@ class GameEngine {
     var dead = this.astronaut.collideWithAsteroid(this.asteroids);
     // kill astronaut
     if (dead != -1) {
-      this.gameOver = true;
-      var url = "./gameover.html";
-      window.location.replace(url);
-      window.location = url;
+      this.gameOverTransition("You got rocked - literally.")
     }
     // check if asteroid hits rocket
     var crash = this.rocket.collideWithAsteroid(this.asteroids);
     // kill rocket
     if (crash != -1) {
-      this.gameOver = true;
-      var url = "./gameover.html";
-      window.location.replace(url);
-      window.location = url;
+      this.gameOverTransition("Your Rocket ship was damaged beyond repair...");
     }
+  }
+
+  gameOverTransition(msg) {
+    var url = "./gameover.html?msg="+msg;
+    window.location.replace(url);
+    window.location = url;
   }
 
   startOxygen() {

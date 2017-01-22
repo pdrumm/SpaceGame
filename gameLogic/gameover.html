@@ -6,8 +6,25 @@
 	</head>
 	<body>
 		<div class="gameOverContainer">
-			<h1>GAME OVER</h1>
+			<h1 style="margin-bottom: 10px;">GAME OVER</h1>
+			<p id="deathMsg"></p>
 			<a href="lobby.html">Return to lobby</a>
 		</div>
 	</body>
+
+	<script>
+		function getParameterByName(name, url) {
+			if (!url) {
+				url = window.location.href;
+			}
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+					results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+		var msg = getParameterByName("msg");
+		document.getElementById("deathMsg").innerHTML = msg;
+	</script>
 </html>
