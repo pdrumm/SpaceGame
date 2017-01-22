@@ -1,5 +1,7 @@
 CANVAS_WIDTH = 1000;
 CANVAS_HEIGHT = 600;
+var ASTRONAUT_ID = 1;
+var ASTEROID_TYPE = 3;
 
 function getParameterByName(name, url) {
     if (!url) {
@@ -25,8 +27,8 @@ var FPS = 30;
 var astronautRef = firebase.database().ref('/astronauts/');
 
 astronautRef.on('child_changed', function(snapshot) {
-  console.log(snapshot.val());
-  console.log(snapshot.key);
+  //console.log(snapshot.val());
+  //console.log(snapshot.key);
 	// if snapshot.key != ME
 	// 	update Astronaut
 	

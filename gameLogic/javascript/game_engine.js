@@ -2,7 +2,7 @@ class GameEngine {
 
   constructor(width, height, canvas) {
     this.CANVAS_WIDTH = width; //window.innerWidth;
-    this.CANVAS_HEIGHT = height; // window.innerHeight;
+    this.CANVAS_HEIGHT = height - 40; // window.innerHeight;
     this.canvas = canvas;
     this.init();
   }
@@ -10,9 +10,9 @@ class GameEngine {
   // initializes the game
   // this is separate from the constructor
   init() {
-    this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 50);
+    this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 100);
     this.astronaut = new Astronaut(100, 100, 20, 40, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
-    setAstronauts(100, 100, 20, 20, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    setAstronauts(100, 100, this.astronaut.angle, 1);
     this.asteroids = new Array();
     this.hammers = new Array();
     // the time when the last asteroid was created
@@ -21,8 +21,9 @@ class GameEngine {
     this.keys = new Array();
     // if the game is over
     this.gameOver = false;
-    this.oxygen = new Oxygen(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT - 25, this.CANVAS_WIDTH, 50);
     this.space = new Space(this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    this.gettingOxygen = false;
+    this.stats = new Stats(0, this.CANVAS_HEIGHT, this.CANVAS_WIDTH, 40);
   }
 
   update() {
@@ -47,13 +48,14 @@ class GameEngine {
     // update hammers
     for (var i = 0; i < this.hammers.length; i++) {
       var remove = this.hammers[i].update();
+      //updateHammers(this.hammers[i].centerX, this.hammers[i].centerY, this.hammers.[i].angle, this.hammers[i].astronautId, this.hammers[i].startTime, this.hammers[i].hammerId); 
       // if hammer is off screen
       if (remove) {
         this.hammers.splice(i, 1);
         i += -1;
       }
     }
-    if (this.oxygen.update()) {
+    if (this.astronaut.getOxygen() <= 0) {
         this.gameOver = true;
     }
     // check all collisions
@@ -88,11 +90,16 @@ class GameEngine {
     }
   }
 
+  startOxygen() {
+    this.gettingOxygen = true;
+    this.astronaut.startOxygen();
+  }
+
   draw() {
     // resetting canvas
-    this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
     this.canvas.fillStyle = "#C0E3C0";
-    this.canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    this.canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
     this.space.draw(this.canvas);
     // rocket
     this.rocket.draw(this.canvas);
@@ -106,11 +113,11 @@ class GameEngine {
     for (var i = 0; i < this.hammers.length; i++) {
       this.hammers[i].draw(this.canvas);
     }
-    this.oxygen.draw(this.canvas);
+    this.stats.draw(this.canvas, this.astronaut.getOxygen());
     // game over screen
     if (this.gameOver) {
       canvas.fillStyle = "#000000";
-      canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+      canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
       canvas.fillStyle = "#666666";
       canvas.textAlign = "center";
       canvas.font = "18px serif";
@@ -134,12 +141,13 @@ class GameEngine {
     }
     if (this.gameOver && keyPressed == " ") {
       this.init();
+    } else if (keyPressed == " ") {
+      this.startOxygen();
     }
   }
 
   // when the mouse is clicked
   mouseDownHandler(event) {
-    console.log("X: " + event.pageX + ", Y: " + event.pageY);
-    this.hammers.push(HelperFunctions.createHammer(event.pageX - 24, event.pageY - 8, this.astronaut.getCenterX(), this.astronaut.getCenterY()));
+    this.hammers.push(HelperFunctions.createHammer(event.pageX, event.pageY, this.astronaut.getCenterX(), this.astronaut.getCenterY()));
   }
 }
