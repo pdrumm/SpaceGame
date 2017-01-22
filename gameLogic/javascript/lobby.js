@@ -7,6 +7,9 @@ var playerList=[], readyList=[];
 Add a listener for any player changes
  */
 db.ref('player-count').on('value', function(snapshot) {
+    if(snapshot.val() < 1) {
+      return;
+    }
     $("#p"+snapshot.val()+" > span").addClass('online');
     playerList.push(snapshot.val());
     console.log(snapshot.val());
