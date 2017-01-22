@@ -2,8 +2,9 @@ OxygenRefill Player {Player} needs oxygen
 OxygenRefill Player {Player} needs more oxygen
 OxygenRefill Player {Player} needs a refill
 OxygenRefill Player {Player} needs an oxygen refill
-OxygenRefill oxygen for Player {Player}
-OxygenRefill refill Player {Player}
+OxygenRefill oxygen for player {Player}
+OxygenRefill refill player {Player}
+OxygenRefill give oxygen to player {Player}
 
 SonicBoom sonic boom
 SonicBoom use sonic boom

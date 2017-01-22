@@ -35,6 +35,8 @@ db.ref().once('value', function(snapshot) {
         db.ref('game-in-progress').set(false);
         db.ref('hammers').remove();
         db.ref('asteroids').remove();
+        db.ref('rocket/powers').update({"sonic-boom": false});
+        db.ref('rocket/powers').update({"oxygen-refill": -1});
     } else {
         gameInProgress = true;
     }
