@@ -10,8 +10,11 @@ db.ref('player-count').on('value', function(snapshot) {
     if(snapshot.val() < 1) {
       return;
     }
-    $("#p"+snapshot.val()+" > span").addClass('online');
-    playerList.push(snapshot.val());
+    playerList = [];
+    for(var i = 1; i <= snapshot.val(); i++) {
+      $("#p"+i+" > span").addClass('online');
+      playerList.push(i);
+    }
     console.log(snapshot.val());
     console.log(snapshot.key);
 });
