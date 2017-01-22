@@ -6,6 +6,7 @@ class Hammer extends Base{
     this.originX = centerX;
     this.originY = centerY;
     this.originTime = Date.now();
+    this.hammerId = hammerId;
   }
 
   update() {
@@ -21,5 +22,9 @@ class Hammer extends Base{
 
   collideWithAsteroid(asteroids) {
     return HelperFunctions.collideWithAsteroid(this, asteroids);
+  }
+
+  getHammerId() {
+    return this.hammerId;
   }
 }

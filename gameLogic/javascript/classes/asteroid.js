@@ -9,6 +9,7 @@ class Asteroid extends Base{
     this.originX = centerX;
     this.originY = centerY;
     this.originTime = Date.now();
+    this.asteroidId = asteroidId;
   }
 
   update() {
@@ -18,5 +19,9 @@ class Asteroid extends Base{
     this.angle = (this.angle + 90 * (Date.now() - this.lastTime) / 1000) % 360;
     this.lastTime = Date.now();
     //return HelperFunctions.leaveScreen(this, this.canvasWidth, this.canvasHeight);
+  }
+
+  getAsteroidId() {
+    return this.asteroidId;
   }
 }

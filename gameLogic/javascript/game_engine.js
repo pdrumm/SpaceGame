@@ -41,7 +41,7 @@ class GameEngine {
       var remove = this.asteroids[i].update();
       // if asteroid is off screen
       if (remove) {
-        this.asteroids.splice(i, 1);
+        destroyAsteroid(i);
         i += -1;
       }
     }
@@ -50,7 +50,7 @@ class GameEngine {
       var remove = this.hammers[i].update();
       // if hammer is off screen
       if (remove) {
-        this.hammers.splice(i, 1);
+        this.destroyHammer(i);
         i += -1;
       }
     }
@@ -69,9 +69,9 @@ class GameEngine {
       // if a hammer collides with an asteroid
       if (index != -1) {
         // destroy hammer
-        this.hammers.splice(i, 1);
+        this.destroyHammer(i);
         // destroy asteroid
-        this.asteroids.splice(index, 1);
+        this.destroyAsteroid(index);
         i += -1;
       }
     }
@@ -181,6 +181,16 @@ class GameEngine {
         }
       }
     }
+  }
+
+  destroyAsteroid(index) {
+    //removeAsteroid(this.asteroids[index].getAsteroidId());
+    this.asteroids.splice(index, 1);
+  }
+
+  destroyHammer(index) {
+    removeHammer(this.hammers[index].getHammerId());
+    this.hammers.splice(index, 1);
   }
 
   // when the mouse is clicked

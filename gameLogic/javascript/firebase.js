@@ -39,7 +39,7 @@ function setRocket() {
   firebase.database().ref('rocket/health/').set(health);
 };
 
-	
+
 //Update from space to DB
 
 function updateAstronauts(centerX, centerY, angle, astronautId) {
@@ -74,8 +74,8 @@ function updateHammers(centerX, centerY, angle, astronautId, startTime, hammerId
   updates['hammers/' + hammerId] = hammerData;
 
   return firebase.database().ref('hammers/'+ hammerId).update({
-    centerX: centerX, 
-    centerY: centerY, 
+    centerX: centerX,
+    centerY: centerY,
     angle:angle,
     astronautId: astronautId,
     startTime: startTime
@@ -111,3 +111,10 @@ function updateAsteroids(centerX, centerY, size, speed, angle, astronautId, star
   });
 };
 
+function removeHammer(hammerId) {
+  firebase.database().ref('hammers/' + hammerId).remove();
+};
+
+function removeAsteroid(asteroidId) {
+  firebase.database().ref('asteroids/' + asteroidId).remove();
+};
