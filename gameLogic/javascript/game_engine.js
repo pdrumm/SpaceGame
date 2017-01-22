@@ -114,6 +114,10 @@ class GameEngine {
     this.astronaut.startOxygen();
   }
 
+  endOxygen() {
+    this.astronaut.endOxygen();
+  }
+
   draw() {
     // resetting canvas
     this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);

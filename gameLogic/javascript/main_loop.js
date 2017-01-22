@@ -42,11 +42,11 @@ astronautRef.on('child_added', function(snapshot) {
   if (snapshot.key != ASTRONAUT_ID)
     {
 	gameEngine.astronauts[snapshot.key] = new Astronaut(
-	  snapshot.val()["centerX"], 
-	  snapshot.val()["centerY"], 
-	  20, 
-	  40, 
-	  CANVAS_WIDTH, 
+	  snapshot.val()["centerX"],
+	  snapshot.val()["centerY"],
+	  20,
+	  40,
+	  CANVAS_WIDTH,
 	  CANVAS_HEIGHT,
 	  snapshot.key
       )
@@ -56,13 +56,13 @@ astronautRef.on('child_added', function(snapshot) {
 var hammerRef = firebase.database().ref('/hammers/');
 hammerRef.on('child_added', function(snapshot){
   gameEngine.hammers.push(new Hammer(
-	  snapshot.val()["centerX"], 
-	  snapshot.val()["centerY"], 
-	  CANVAS_WIDTH, 
-	  CANVAS_HEIGHT, 
-	  snapshot.val()["angle"], 
-	  snapshot.val()["astronautId"], 
-	  snapshot.val()["startTime"], 
+	  snapshot.val()["centerX"],
+	  snapshot.val()["centerY"],
+	  CANVAS_WIDTH,
+	  CANVAS_HEIGHT,
+	  snapshot.val()["angle"],
+	  snapshot.val()["astronautId"],
+	  snapshot.val()["startTime"],
 	  snapshot.val()["hammerId"])
   );
 });
@@ -70,18 +70,26 @@ hammerRef.on('child_added', function(snapshot){
 var asteroidRef = firebase.database().ref('/asteroids/');
 asteroidRef.on('child_added', function(snapshot){
   gameEngine.asteroids.push(new Asteroid(
-	  snapshot.val()["centerX"], 
-	  snapshot.val()["centerY"], 
-	  snapshot.val()["size"], 
-	  snapshot.val()["speed"], 
-	  CANVAS_WIDTH, 
-	  CANVAS_HEIGHT, 
+	  snapshot.val()["centerX"],
+	  snapshot.val()["centerY"],
+	  snapshot.val()["size"],
+	  snapshot.val()["speed"],
+	  CANVAS_WIDTH,
+	  CANVAS_HEIGHT,
 	  snapshot.val()["angle"],
-	  snapshot.val()["astronautId"], 
-	  snapshot.val()["startTime"], 
-	  snapshot.val()["type"], 
+	  snapshot.val()["astronautId"],
+	  snapshot.val()["startTime"],
+	  snapshot.val()["type"],
 	  snapshot.val()["asteroidId"]
   ));
+});
+
+firebase.database().ref('/rocket/powers/oxygen-refill').on('value', function(snapshot) {
+    if(ASTRONAUT_ID = snapshot.val()) {
+      gameEngine.startOxygen();
+    } else {
+      gameEngine.endOxygen();
+    }
 });
 
 document.addEventListener("keydown", function(event) {gameEngine.keyDownHandler(event);}, false);

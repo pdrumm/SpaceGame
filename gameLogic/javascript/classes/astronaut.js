@@ -24,17 +24,19 @@ class Astronaut extends Base {
         if (this.oxygenX < this.canvasWidth / 2 && this.centerX > this.canvasWidth / 2) {
           this.centerX = this.canvasWidth / 2;
           this.centerY = this.canvasHeight / 2;
+          this.speedX = 0;
+          this.speedY = 0;
         } else if (this.oxygenX > this.canvasWidth / 2 && this.centerX < this.canvasWidth / 2) {
           this.centerX = this.canvasWidth / 2;
           this.centerY = this.canvasHeight / 2;
+          this.speedX = 0;
+          this.speedY = 0;
         }
       } else {
         // increases oxygen
         this.oxygen = Math.min(this.oxygen + (Date.now() - this.lastTime) / 40, 100);
         if (this.oxygen == 100) {
-          this.gettingOxygen = false;
-          this.speedX = 0;
-          this.speedY = 0;
+          this.endOxygen();
         }
       }
     } else {
@@ -108,6 +110,10 @@ class Astronaut extends Base {
     this.gettingOxygen = true;
     this.oxygenX = this.centerX;
     this.oxygenY = this.centerY;
+  }
+
+  endOxygen() {
+    this.gettingOxygen = false;
   }
 
   collideWithAsteroid(asteroids) {
