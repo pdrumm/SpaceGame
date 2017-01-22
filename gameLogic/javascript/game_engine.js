@@ -12,7 +12,13 @@ class GameEngine {
   init() {
     this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 100);
     setRocket(null, FULL_HEALTH);
-    this.astronaut = new Astronaut(100, 100, 20, 40, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, ASTRONAUT_ID);
+    var astronautX = 0;
+    if (ASTRONAUT_ID < 3) {
+      astronautX = this.CANVAS_WIDTH / 2 - 50 * ASTRONAUT_ID - 100;
+    } else {
+      astronautX = this.CANVAS_WIDTH / 2 + 50 * ASTRONAUT_ID + 100;
+    }
+    this.astronaut = new Astronaut(astronautX, this.CANVAS_HEIGHT / 2, 20, 40, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, ASTRONAUT_ID);
     this.astronauts = {};
     setAstronauts(100, 100, this.astronaut.angle, ASTRONAUT_ID);
     this.asteroids = new Array();
