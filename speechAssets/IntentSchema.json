@@ -9,6 +9,9 @@
                  "type": "AMAZON.NUMBER"
             }
             ]
+    },
+    {
+        "intent": "SonicBoom"
     }
     ]
 }

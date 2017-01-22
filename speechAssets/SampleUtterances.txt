@@ -2,3 +2,12 @@ OxygenRefill Player {Player} needs oxygen
 OxygenRefill Player {Player} needs more oxygen
 OxygenRefill Player {Player} needs a refill
 OxygenRefill Player {Player} needs an oxygen refill
+OxygenRefill oxygen for Player {Player}
+OxygenRefill refill Player {Player}
+
+SonicBoom sonic boom
+SonicBoom use sonic boom
+SonicBoom we need your help
+SonicBoom you know what to do
+SonicBoom save us
+SonicBoom kapow

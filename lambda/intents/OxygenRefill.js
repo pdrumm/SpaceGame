@@ -1,6 +1,6 @@
 var AlexaAssets = require("../AlexaAssets");
 
-function handlePlayerCountRequest (intent, session, response) {
+function handleOxygenRefillRequest (intent, session, response) {
 
     if (intent.slots.Player && intent.slots.Player.value) {
 
@@ -19,4 +19,4 @@ function handlePlayerCountRequest (intent, session, response) {
 
 }
 
-module.exports = handlePlayerCountRequest;
+module.exports = handleOxygenRefillRequest;

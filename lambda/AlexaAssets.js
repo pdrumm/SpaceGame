@@ -9,6 +9,10 @@ var AlexaAssets = {
         speechOutput: "Roger that. Report to the station."
     },
 
+    SonicBoom: {
+        speechOutput: "Boom shaka laka!"
+    },
+
     Error: {
         speechOutput: "Roger, we couldn't here that.",
         repromptOutput: "Over!"
