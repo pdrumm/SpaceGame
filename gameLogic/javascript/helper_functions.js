@@ -55,7 +55,7 @@ class HelperFunctions {
   // creates a new hammer and adds it to the list of hammers
   static createHammer(mouseX, mouseY, centerX, centerY, canvasWidth, canvasHeight) {
     var angle = 180 + Math.atan2(centerY - mouseY, centerX - mouseX) * 180 / Math.PI;
-    var startTime = Date();
+    var startTime = Date.now();
     var hammerId = firebase.database().ref().push().key;
     setHammers(centerX, centerY, angle, ASTRONAUT_ID, startTime, hammerId);
     return new Hammer(centerX, centerY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, angle, ASTRONAUT_ID, startTime, hammerId);
@@ -66,7 +66,7 @@ class HelperFunctions {
     //centerX, centerY, size, angle, speedX, speedY, canvasWidth, canvasHeight
     var entering = Math.floor((Math.random() * 4));
     var astronautId = ASTRONAUT_ID;
-    var startTime = Date();
+    var startTime = Date.now();
     var type = ASTEROID_TYPE;
     var asteroidId = firebase.database().ref().push().key;
     if (entering == 0) {
