@@ -67,6 +67,9 @@ class GameEngine {
     }
     if (this.astronaut.getOxygen() <= 0) {
         this.gameOver = true;
+        var url = "./gameover.html";
+        window.location.replace(url);
+        window.location = url;
     }
     // check all collisions
     this.collisions();
