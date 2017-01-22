@@ -34,7 +34,7 @@ function setAsteroids(centerX, centerY, angle, astronautId, startTime, size, typ
   });
 };
 
-function setRocket() {
+function setRocket(astronautId, health) {
   firebase.database().ref('rocket/powers/oxygen-refill').set(astronautId);
   firebase.database().ref('rocket/health/').set(health);
 };
@@ -59,56 +59,18 @@ function updateAstronauts(centerX, centerY, angle, astronautId) {
     angle:angle});
 };
 
-function updateHammers(centerX, centerY, angle, astronautId, startTime, hammerId) {
-  // hammer data entry
-  var hammerData = {
-    centerX: centerX,
-    centerY: centerY,
-    angle: angle,
-    astronautId: astronautId,
-    startTime: startTime
+function updateRocket(health, astronautId) {
+  // rocket data entry
+  var rocketHealth = {
+    health: health
   };
 
-  // write hammer data to database
-  var updates = {};
-  updates['hammers/' + hammerId] = hammerData;
-
-  return firebase.database().ref('hammers/'+ hammerId).update({
-    centerX: centerX,
-    centerY: centerY,
-    angle:angle,
-    astronautId: astronautId,
-    startTime: startTime
-  });
-};
-
-function updateAsteroids(centerX, centerY, size, speed, angle, astronautId, startTime, type, asteroidId) {
-  // asteroid data entry
-  var asteroidData = {
-    centerX: centerX,
-    centerY: centerY,
-    size: size,
-    speed: speed,
-    angle: angle,
-    astronautId: astronautId,
-    startTime: startTime,
-    type: type
+  var oxygenRefil = {
+    astronautId: astronautId
   };
 
-  // write asteroid data to database
-  var updates = {};
-  updates['asteroids/' + asteroidId] = asteroidData;
-
-  return firebase.database().ref('asteroids/'+ asteroidId).update({
-    centerX: centerX,
-    centerY: centerY,
-    size: size,
-    speed: speed,
-    angle: angle,
-    astronautId: astronautId,
-    startTime: startTime,
-    type: type
-  });
+  // write rocket data to database
+  // TODO
 };
 
 function removeHammer(hammerId) {

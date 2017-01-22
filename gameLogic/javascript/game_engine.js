@@ -41,7 +41,7 @@ class GameEngine {
       var remove = this.asteroids[i].update();
       // if asteroid is off screen
       if (remove) {
-        destroyAsteroid(i);
+        this.destroyAsteroid(i);
         i += -1;
       }
     }
