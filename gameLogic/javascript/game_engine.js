@@ -34,6 +34,7 @@ class GameEngine {
     this.stats = new Stats(0, this.CANVAS_HEIGHT, this.CANVAS_WIDTH, 40);
     this.asteroidInterval = 2000;
     this.lastHammer = Date.now();
+    this.sonicBoomTime = 0;
   }
 
   update() {
@@ -115,6 +116,12 @@ class GameEngine {
     this.astronaut.endOxygen();
   }
 
+  sonicBoom() {
+    this.sonicBoomTime = Date.now();
+    firebase.database().ref('asteroids').remove();
+    this.asteroids = new Array();
+  }
+
   draw() {
     // resetting canvas
     this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
@@ -138,16 +145,15 @@ class GameEngine {
     for (var i = 0; i < this.hammers.length; i++) {
       this.hammers[i].draw(this.canvas);
     }
-    this.stats.draw(this.canvas, this.astronaut.getOxygen());
-    // game over screen
-    if (this.gameOver) {
-      canvas.fillStyle = "#000000";
-      canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
-      canvas.fillStyle = "#666666";
-      canvas.textAlign = "center";
-      canvas.font = "18px serif";
-      canvas.fillText("Game Over :( Spacebar to play again", this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2);
+    if (Date.now() < this.sonicBoomTime + 3000) {
+      if (Date.now() - this.sonicBoomTime < 200) {
+        this.canvas.fillStyle = "rgba(255, 255, 255, " + (3000 - (Date.now() - this.sonicBoomTime)) / 3000 + ")";
+      } else {
+        this.canvas.fillStyle = "rgba(255, 255, 255, " + (3000 - (Date.now() - this.sonicBoomTime)) / 3000 + ")";
+      }
+      this.canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     }
+    this.stats.draw(this.canvas, this.astronaut.getOxygen());
   }
 
   // when a key is pressed down
@@ -168,6 +174,8 @@ class GameEngine {
       this.init();
     } else if (keyPressed == "u") {
       this.startOxygen();
+    } else if (keyPressed == "y") {
+      this.sonicBoom();
     } else if (keyPressed == "o") { // FULL SCREEN STUFF
       if (
       	document.fullscreenEnabled ||

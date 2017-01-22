@@ -92,6 +92,13 @@ firebase.database().ref('/rocket/powers/oxygen-refill').on('value', function(sna
     }
 });
 
+firebase.database().ref('/rocket/powers/sonic-boom').on('value', function(snapshot) {
+    if (snapshot.val() == true) {
+      gameEngine.sonicBoom();
+      firebase.database().ref('/rocket/powers/sonic-boom').set(false);
+    }
+});
+
 document.addEventListener("keydown", function(event) {gameEngine.keyDownHandler(event);}, false);
 document.addEventListener("keyup", function(event) {gameEngine.keyUpHandler(event);}, false);
 document.addEventListener("mousedown", function(event) {gameEngine.mouseDownHandler(event);}, false);
