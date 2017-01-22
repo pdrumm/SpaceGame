@@ -10,7 +10,7 @@ class GameEngine {
   // initializes the game
   // this is separate from the constructor
   init() {
-    this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 50);
+    this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 100);
     this.astronaut = new Astronaut(100, 100, 20, 40, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     setAstronauts(100, 100, 20, 20, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     this.asteroids = new Array();
