@@ -29,7 +29,7 @@ db.ref().once('value', function(snapshot) {
     }
 }).then(function() {
     if (gameInProgress) {
-        console.log("Please wait");
+        alert("A game is currently in progress. Please wait.");
     } else {
         // If a game is not in progress, then this player will join the game
         console.log("Welcome");
@@ -66,6 +66,8 @@ db.ref().once('value', function(snapshot) {
 
 // Used to change not-ready status to ready status of a given player
 db.ref("ready-players").on("child_changed", function(snapshot) {
+    if (snapshot.val()===false) { return; }
+
     var pid = snapshot.key;
     $("#r"+pid).addClass("readystatus");
     $("#r"+pid).removeClass("notreadystatus");
@@ -87,7 +89,7 @@ $(document).ready(function() {
 // Redirect user to the game-play page
 function beginGame() {
     db.ref('game-in-progress').set(true).then(function(){
-        var url = "file:///C:/Users/Patrick/Documents/boilermake/SpaceGame/gameLogic/index.html?pid="+playerId;
+        var url = "./index.html?pid="+playerId;
         window.location.replace(url);
         window.location = url;
     });

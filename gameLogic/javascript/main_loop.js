@@ -15,6 +15,10 @@ function getParameterByName(name, url) {
 }
 var ASTRONAUT_ID = getParameterByName("pid");
 
+// Remove the player when they leave the game
+playerRef = firebase.database().ref('astronauts').child(ASTRONAUT_ID);
+playerRef.onDisconnect().remove();
+
 // creates a canvas element to be put in the html (idk why we are creating it but okay...)
 this.canvasElement = $("<canvas class=\"noBorders\"width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas");
 this.canvas = this.canvasElement.get(0).getContext("2d");
