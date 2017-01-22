@@ -10,10 +10,10 @@ class Oxygen extends Base {
     return this.oxygen <= 0;
   }
 
-  draw(canvas) {
+  draw(canvas, oxygen) {
     //canvas.fillStyle = "#ff0000"; // make oxygen pure red
     canvas.fillStyle = "rgba(255, 0, 0, 0.5)"; // make oxygen transparent
-    canvas.fillRect(0, this.centerY - this.height / 2, this.width * this.oxygen / 100, this.height);
+    canvas.fillRect(0, this.centerY - this.height / 2, this.width * oxygen / 100, this.height);
     canvas.fillStyle = "#000000";
     canvas.textAlign = "center";
     canvas.font = "18px serif";
