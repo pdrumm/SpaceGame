@@ -57,7 +57,7 @@ class HelperFunctions {
     var angle = 180 + Math.atan2(centerY - mouseY, centerX - mouseX) * 180 / Math.PI;
     var startTime = Date();
     var hammerId = firebase.database().ref().push().key;
-    setHammers(centerX, centerY, angle, 1, startTime, hammerId);
+    setHammers(centerX, centerY, angle, ASTRONAUT_ID, startTime, hammerId);
     return new Hammer(centerX, centerY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, angle, ASTRONAUT_ID, startTime, hammerId);
   }
 
@@ -76,6 +76,7 @@ class HelperFunctions {
       var size = Math.floor((Math.random() * 3) + 1);
       var speed = Math.floor((Math.random() * 60) + 20);
       var direction = Math.random() * 180 + 90;
+      setAsteroids(centerX, centerY, direction, astronautId, startTime, size, type, speed, asteroidId);
       return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId);
     } else if (entering == 1) {
       // right of screen
@@ -84,6 +85,7 @@ class HelperFunctions {
       var size = Math.floor((Math.random() * 3) + 1);
       var speed = Math.floor((Math.random() * 60) + 20);
       var direction = Math.random() * 180 + 180;
+      setAsteroids(centerX, centerY, direction, astronautId, startTime, size, type, speed, asteroidId);
       return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId);
     } else if (entering == 2) {
       // bottom of screen
@@ -92,6 +94,7 @@ class HelperFunctions {
       var size = Math.floor((Math.random() * 3) + 1);
       var speed = Math.floor((Math.random() * 60) + 20);
       var direction = Math.random() * 180 + 270;
+      setAsteroids(centerX, centerY, direction, astronautId, startTime, size, type, speed, asteroidId);
       return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId); 
     } else if (entering == 3) {
       // left of screen
@@ -100,6 +103,7 @@ class HelperFunctions {
       var size = Math.floor((Math.random() * 3) + 1);
       var speed = Math.floor((Math.random() * 60) + 20);
       var direction = Math.random() * 180 + 90;
+      setAsteroids(centerX, centerY, direction, astronautId, startTime, size, type, speed, asteroidId);
       return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId);
     }
   }
