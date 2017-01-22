@@ -11,8 +11,10 @@ class GameEngine {
   // this is separate from the constructor
   init() {
     this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 100);
+    setRocket(null, FULL_HEALTH);
     this.astronaut = new Astronaut(100, 100, 20, 40, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
-    setAstronauts(100, 100, this.astronaut.angle, 1);
+    this.astronauts = {};
+    setAstronauts(100, 100, this.astronaut.angle, ASTRONAUT_ID);
     this.asteroids = new Array();
     this.hammers = new Array();
     // the time when the last asteroid was created
@@ -48,7 +50,6 @@ class GameEngine {
     // update hammers
     for (var i = 0; i < this.hammers.length; i++) {
       var remove = this.hammers[i].update();
-      //updateHammers(this.hammers[i].centerX, this.hammers[i].centerY, this.hammers.[i].angle, this.hammers[i].astronautId, this.hammers[i].startTime, this.hammers[i].hammerId); 
       // if hammer is off screen
       if (remove) {
         this.hammers.splice(i, 1);
@@ -105,6 +106,9 @@ class GameEngine {
     this.rocket.draw(this.canvas);
     // astronaut
     this.astronaut.draw(this.canvas);
+    for (var i = 0; i < this.astronauts.length; i++) {
+      this.astronauts[i].draw(this.canvas);
+    }
     // asteroids
     for (var i = 0; i < this.asteroids.length; i++) {
       this.asteroids[i].draw(this.canvas);
