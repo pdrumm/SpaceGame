@@ -23,6 +23,7 @@ db.ref().once('value', function(snapshot) {
         gameInProgress = false;
     } else if (!root['astronauts']) {
         gameInProgress = false;
+        db.ref('player-count').set(0);
         db.ref('game-in-progress').set(false);
     } else {
         gameInProgress = true;
@@ -33,34 +34,30 @@ db.ref().once('value', function(snapshot) {
     } else {
         // If a game is not in progress, then this player will join the game
         console.log("Welcome");
-        // Get the last player
-        db.ref().once('value', function(snapshot) {
-            var root = snapshot.val();
-            if (!root['astronauts']) {
-                // No astronauts exist, you are player one
-                playerId = 1;
-                db.ref().update({
-                    astronauts: {
-                        1: true
-                    }
-                });
-                db.ref('ready-players').set({
-                    1: false, 2: false, 3: false, 4: false
-                });
-            } else {
-                var max = 0;
-                for (var i in root['astronauts']) {
-                    i = parseInt(i);
-                    max = i > max ? i : max;
-                }
-                // You are player i+1
-                playerId = i+1;
-                localStorage['pid'] = playerId;
-                db.ref('astronauts').child(playerId).set(true);
-                console.log("You are player " + playerId);
-            }
-            $("#p"+playerId).addClass('myself');
+        // Get my player number (atomically)
+        db.ref('player-count').transaction(function(currCount) {
+          return currCount + 1;
+        }, function(error, committed, snapshot) {
+          if (error) {
+            console.log("Transaction failed abnormally.");
+          } else if (!committed) {
+            console.log("We aborted the transaction.");
+          } else {
+            console.log("transaction successful");
+          }
+          playerId = snapshot.val();
         });
+        if (playerId > 4) {
+          alert("Sorry, the lobby is currently full.");
+          return;
+        } else if (playerId==1) {
+          db.ref('ready-players').set({
+              1: false, 2: false, 3: false, 4: false
+          });
+        }
+
+        console.log("You are player " + playerId);
+        $("#p"+playerId).addClass('myself');
     }
 });
 
