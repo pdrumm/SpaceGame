@@ -26,13 +26,15 @@ class GameEngine {
     this.space = new Space(this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     this.gettingOxygen = false;
     this.stats = new Stats(0, this.CANVAS_HEIGHT, this.CANVAS_WIDTH, 40);
+    this.asteroidInterval = 2000;
   }
 
   update() {
     this.space.update();
     // create a new asteroid after a certain amount of time
-    if (Date.now() - this.lastAsteroid > 500) {
-      //this.asteroids.push(HelperFunctions.createAsteroid(this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
+    if (Date.now() - this.lastAsteroid > this.asteroidInterval) {
+      this.asteroids.push(HelperFunctions.createAsteroid(this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
+      this.asteroidInterval = Math.random() * 2000 + 1000;
       this.lastAsteroid = Date.now();
     }
     // update astronaut
