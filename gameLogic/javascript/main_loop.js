@@ -84,16 +84,11 @@ asteroidRef.on('child_added', function(snapshot){
   ));
 });
 
-firebase.database().ref('/rocket/powers').on('child_changed', function(snapshot) {
-    console.log(snapshot.key);
-    console.log(snapshot.val());
-    if (snapshot.key === "oxygen-refill") {
-        if(ASTRONAUT_ID == snapshot.val()) {
-            gameEngine.startOxygen();
-        } else {
-            gameEngine.endOxygen();
-        }
-        firebase.database().ref('rocket/powers/oxygen-refill').set(-1);
+firebase.database().ref('/rocket/powers/oxygen-refill').on('value', function(snapshot) {
+    if(ASTRONAUT_ID == snapshot.val()) {
+      gameEngine.startOxygen();
+    } else {
+      gameEngine.endOxygen();
     }
 });
 
