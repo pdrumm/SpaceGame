@@ -1,6 +1,6 @@
 class Asteroid extends Base{
 
-  constructor(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction) {
+  constructor(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId) {
     super(centerX, centerY, size * 20, size * 20, canvasWidth, canvasHeight, "asteroid" + (Math.floor(Math.random() * 3) + 1));
     this.size = size;
     this.speed = speed;

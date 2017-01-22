@@ -1,6 +1,6 @@
 class HelperFunctions {
-
-  static rectIntersects(aCenterX, aCenterY, aWidth, aHeight, bCenterX, bCenterY, bWidth, bHeight) {
+	
+    static rectIntersects(aCenterX, aCenterY, aWidth, aHeight, bCenterX, bCenterY, bWidth, bHeight) {
     if (HelperFunctions.intersects(aCenterX - aWidth / 2, aCenterX + aWidth / 2, bCenterX - bWidth / 2, bCenterX + bWidth / 2)) {
       if (HelperFunctions.intersects(aCenterY - aHeight / 2, aCenterY + aHeight / 2, bCenterY - bHeight / 2, bCenterY + bHeight / 2)) {
         return true;
@@ -55,13 +55,20 @@ class HelperFunctions {
   // creates a new hammer and adds it to the list of hammers
   static createHammer(mouseX, mouseY, centerX, centerY) {
     var angle = 180 + Math.atan2(centerY - mouseY, centerX - mouseX) * 180 / Math.PI;
-    return new Hammer(centerX, centerY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, angle);
+    var startTime = Date();
+    var hammerId = firebase.database().ref().push().key;
+    setHammers(centerX, centerY, angle, 1, startTime, hammerId);
+    return new Hammer(centerX, centerY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, angle, ASTRONAUT_ID, startTime, hammerId);
   }
 
   // creates a new asteroid and adds it to the list of asteroids
   static createAsteroid(canvasWidth, canvasHeight) {
     //centerX, centerY, size, angle, speedX, speedY, canvasWidth, canvasHeight
     var entering = Math.floor((Math.random() * 4));
+    var astronautId = ASTRONAUT_ID;
+    var startTime = Date();
+    var type = ASTEROID_TYPE;
+    var asteroidId = firebase.database().ref().push().key;
     if (entering == 0) {
       // top of screen
       var centerX = Math.floor((Math.random() * canvasWidth));
@@ -69,7 +76,7 @@ class HelperFunctions {
       var size = Math.floor((Math.random() * 3) + 1);
       var speed = Math.floor((Math.random() * 60) + 20);
       var direction = Math.random() * 180 + 90;
-      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction);
+      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId);
     } else if (entering == 1) {
       // right of screen
       var centerX = Math.floor((Math.random() * canvasWidth));
@@ -77,7 +84,7 @@ class HelperFunctions {
       var size = Math.floor((Math.random() * 3) + 1);
       var speed = Math.floor((Math.random() * 60) + 20);
       var direction = Math.random() * 180 + 180;
-      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction);
+      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId);
     } else if (entering == 2) {
       // bottom of screen
       var centerX = 0;
@@ -85,7 +92,7 @@ class HelperFunctions {
       var size = Math.floor((Math.random() * 3) + 1);
       var speed = Math.floor((Math.random() * 60) + 20);
       var direction = Math.random() * 180 + 270;
-      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction);
+      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId); 
     } else if (entering == 3) {
       // left of screen
       var centerX = canvasWidth;
@@ -93,7 +100,7 @@ class HelperFunctions {
       var size = Math.floor((Math.random() * 3) + 1);
       var speed = Math.floor((Math.random() * 60) + 20);
       var direction = Math.random() * 180 + 90;
-      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction);
+      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId);
     }
   }
 }
