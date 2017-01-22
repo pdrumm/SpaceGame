@@ -48,7 +48,7 @@ class GameEngine {
     // update hammers
     for (var i = 0; i < this.hammers.length; i++) {
       var remove = this.hammers[i].update();
-      //updateHammers(this.hammers[i].centerX, this.hammers[i].centerY, this.hammers.[i].angle, this.hammers[i].astronautId, this.hammers[i].startTime, this.hammers[i].hammerId); 
+      //updateHammers(this.hammers[i].centerX, this.hammers[i].centerY, this.hammers.[i].angle, this.hammers[i].astronautId, this.hammers[i].startTime, this.hammers[i].hammerId);
       // if hammer is off screen
       if (remove) {
         this.hammers.splice(i, 1);
@@ -143,11 +143,52 @@ class GameEngine {
       this.init();
     } else if (keyPressed == " ") {
       this.startOxygen();
+    } else if (keyPressed == "o") { // FULL SCREEN STUFF
+      if (
+      	document.fullscreenEnabled ||
+      	document.webkitFullscreenEnabled ||
+      	document.mozFullScreenEnabled ||
+      	document.msFullscreenEnabled
+      ) {
+        console.log("Full screenable!");
+        // if we are full screen
+        if (
+        	document.fullscreenElement ||
+        	document.webkitFullscreenElement ||
+        	document.mozFullScreenElement ||
+        	document.msFullscreenElement
+        ) {
+          // exit full-screen
+          if (document.exitFullscreen) {
+          	document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) {
+          	document.webkitExitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+          	document.mozCancelFullScreen();
+          } else if (document.msExitFullscreen) {
+          	document.msExitFullscreen();
+          }
+        } else {
+          var i = document.getElementById("canvasDiv");
+          // go full-screen
+          if (i.requestFullscreen) {
+          	i.requestFullscreen();
+          } else if (i.webkitRequestFullscreen) {
+          	i.webkitRequestFullscreen();
+          } else if (i.mozRequestFullScreen) {
+          	i.mozRequestFullScreen();
+          } else if (i.msRequestFullscreen) {
+          	i.msRequestFullscreen();
+          }
+        }
+      }
     }
   }
 
   // when the mouse is clicked
   mouseDownHandler(event) {
-    this.hammers.push(HelperFunctions.createHammer(event.pageX, event.pageY, this.astronaut.getCenterX(), this.astronaut.getCenterY()));
+    // handles full screen mode
+    var rect = document.getElementById("canvasDiv").getBoundingClientRect();
+    this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY()));
   }
 }
