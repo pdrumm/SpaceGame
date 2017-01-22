@@ -85,7 +85,7 @@ asteroidRef.on('child_added', function(snapshot){
 });
 
 firebase.database().ref('/rocket/powers/oxygen-refill').on('value', function(snapshot) {
-    if(ASTRONAUT_ID = snapshot.val()) {
+    if(ASTRONAUT_ID == snapshot.val()) {
       gameEngine.startOxygen();
     } else {
       gameEngine.endOxygen();
