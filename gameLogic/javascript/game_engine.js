@@ -33,6 +33,7 @@ class GameEngine {
     this.gettingOxygen = false;
     this.stats = new Stats(0, this.CANVAS_HEIGHT, this.CANVAS_WIDTH, 40);
     this.asteroidInterval = 2000;
+    this.lastHammer = Date.now();
   }
 
   update() {
@@ -211,7 +212,10 @@ class GameEngine {
   // when the mouse is clicked
   mouseDownHandler(event) {
     // handles full screen mode
-    var rect = document.getElementById("canvasDiv").getBoundingClientRect();
-    this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY(), this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
+    if (Date.now() - this.lastHammer > 500) {
+      var rect = document.getElementById("canvasDiv").getBoundingClientRect();
+      this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY(), this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
+      this.lastHammer = Date.now();
+    }
   }
 }
