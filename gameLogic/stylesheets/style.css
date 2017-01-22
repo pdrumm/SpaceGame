@@ -24,6 +24,10 @@ td {
 	font-size: 24px;
 }
 
+a {
+	color: cyan;
+}
+
 .tint {
   width: 100%;
   height: auto;
@@ -63,4 +67,8 @@ td {
 
 .notreadystatus {
 	color: red;
+}
+
+.gameOverContainer {
+	margin: 15%;
 }
