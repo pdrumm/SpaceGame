@@ -184,7 +184,7 @@ class GameEngine {
   }
 
   destroyAsteroid(index) {
-    //removeAsteroid(this.asteroids[index].getAsteroidId());
+    removeAsteroid(this.asteroids[index].getAsteroidId());
     this.asteroids.splice(index, 1);
   }
 
