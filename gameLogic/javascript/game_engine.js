@@ -91,12 +91,18 @@ class GameEngine {
     // kill astronaut
     if (dead != -1) {
       this.gameOver = true;
+      var url = "./gameover.html";
+      window.location.replace(url);
+      window.location = url;
     }
     // check if asteroid hits rocket
     var crash = this.rocket.collideWithAsteroid(this.asteroids);
     // kill rocket
     if (crash != -1) {
       this.gameOver = true;
+      var url = "./gameover.html";
+      window.location.replace(url);
+      window.location = url;
     }
   }
 
