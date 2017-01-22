@@ -1,7 +1,7 @@
 class Astronaut extends Base {
 
-  constructor(centerX, centerY, width, height, canvasWidth, canvasHeight) {
-    super(centerX, centerY, width, height, canvasWidth, canvasHeight, "astronaut");
+  constructor(centerX, centerY, width, height, canvasWidth, canvasHeight, astronautId) {
+    super(centerX, centerY, width, height, canvasWidth, canvasHeight, "astronaut" + astronautId);
     this.boost = .2;
     this.gettingOxygen = false;
     this.oxygenTime = Date.now();
