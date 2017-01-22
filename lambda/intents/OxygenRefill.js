@@ -4,7 +4,7 @@ function handlePlayerCountRequest (intent, session, response) {
 
     if (intent.slots.Player && intent.slots.Player.value) {
 
-        this.db.ref('rocket/powers').child('oxygen-refill').set(intent.slots.Player.value).then(function() {
+        this.db.ref('rocket/powers').update({'oxygen-refill': intent.slots.Player.value}).then(function() {
             response.tell(
                 AlexaAssets.OxygenRefill.speechOutput
             );

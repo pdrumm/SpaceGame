@@ -33,6 +33,8 @@ db.ref().once('value', function(snapshot) {
         gameInProgress = false;
         db.ref('player-count').set(0);
         db.ref('game-in-progress').set(false);
+        db.ref('hammers').remove();
+        db.ref('asteroids').remove();
     } else {
         gameInProgress = true;
     }
