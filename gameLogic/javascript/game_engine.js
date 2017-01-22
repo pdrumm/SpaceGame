@@ -147,7 +147,6 @@ class GameEngine {
 
   // when the mouse is clicked
   mouseDownHandler(event) {
-    console.log("X: " + event.pageX + ", Y: " + event.pageY);
     this.hammers.push(HelperFunctions.createHammer(event.pageX, event.pageY, this.astronaut.getCenterX(), this.astronaut.getCenterY()));
   }
 }

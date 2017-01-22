@@ -25,7 +25,6 @@ class Space {
   // this is really ugly right now, but it works, so I'm gonna keep it as is for now
   update() {
     var pixelsPerSecond = 30;
-    console.log(this.imgSpaceBack.naturalWidth);
     this.left = (-15 * (Date.now() - this.originTime) / 1000) % (this.imgSpaceBack.naturalWidth * 2);
     var lgStarsWidth = this.imgSpaceLgStars.naturalWidth * this.canvasHeight / this.imgSpaceLgStars.naturalHeight;
     this.leftLgStars = (-100 * (Date.now() - this.originTime) / 1000) % (lgStarsWidth);
@@ -37,7 +36,6 @@ class Space {
       this.planetTime = Date.now();
       this.currPlanet += 1;
     }
-    console.log(this.currPlanet);
   }
 
   draw(canvas) {
