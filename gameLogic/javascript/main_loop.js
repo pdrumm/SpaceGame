@@ -30,22 +30,27 @@ var FPS = 30;
 //Listen from DB to space
 var astronautRef = firebase.database().ref('/astronauts/');
 astronautRef.on('child_changed', function(snapshot) {
-  if (snapshot.key =! ASTRONAUT_ID)
+  if (snapshot.key != ASTRONAUT_ID)
     {
-      gameEngine.astronauts[snapshot.key].centerX = Astronaut(snapshot.val()["centerX"]);
-      gameEngine.astronauts[snapshot.key].centerY = Astronaut(snapshot.val()["centerY"]);
-      gameEngine.astronauts[snapshot.key].angle = Astronaut(snapshot.val()["angle"]);
+      gameEngine.astronauts[snapshot.key].centerX = snapshot.val()["centerX"];
+      gameEngine.astronauts[snapshot.key].centerY = snapshot.val()["centerY"];
+      gameEngine.astronauts[snapshot.key].angle = snapshot.val()["angle"];
     }
       });
 
 astronautRef.on('child_added', function(snapshot) {
-  gameEngine.astronauts[snapshot.key] = new Astronaut(
+  if (snapshot.key != ASTRONAUT_ID)
+    {
+	gameEngine.astronauts[snapshot.key] = new Astronaut(
 	  snapshot.val()["centerX"], 
 	  snapshot.val()["centerY"], 
-	  snapshot.val()["width"], 
-	  snapshot.val()["height"], 
+	  20, 
+	  40, 
 	  CANVAS_WIDTH, 
-	  CANVAS_HEIGHT)
+	  CANVAS_HEIGHT,
+	  snapshot.key
+      )
+    }
 });
 
 var hammerRef = firebase.database().ref('/hammers/');

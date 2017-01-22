@@ -12,7 +12,7 @@ class GameEngine {
   init() {
     this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 100);
     setRocket(null, FULL_HEALTH);
-    this.astronaut = new Astronaut(100, 100, 20, 40, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    this.astronaut = new Astronaut(100, 100, 20, 40, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, ASTRONAUT_ID);
     this.astronauts = {};
     setAstronauts(100, 100, this.astronaut.angle, ASTRONAUT_ID);
     this.asteroids = new Array();
@@ -32,12 +32,12 @@ class GameEngine {
     this.space.update();
     // create a new asteroid after a certain amount of time
     if (Date.now() - this.lastAsteroid > 500) {
-      this.asteroids.push(HelperFunctions.createAsteroid(this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
+      //this.asteroids.push(HelperFunctions.createAsteroid(this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
       this.lastAsteroid = Date.now();
     }
     // update astronaut
     this.astronaut.update(this.keys);
-    updateAstronauts(this.astronaut.centerX, this.astronaut.centerY, this.astronaut.angle, 1);
+    updateAstronauts(this.astronaut.centerX, this.astronaut.centerY, this.astronaut.angle, ASTRONAUT_ID);
     // update asteroids
     for (var i = 0; i < this.asteroids.length; i++) {
       var remove = this.asteroids[i].update();
@@ -106,8 +106,10 @@ class GameEngine {
     this.rocket.draw(this.canvas);
     // astronaut
     this.astronaut.draw(this.canvas);
+	  console.log("almost there");
     for (var i in this.astronauts) {
-      this.astronauts[i].draw(this.canvas);
+      console.log("iterate", this.astronauts[i], i);
+	    this.astronauts[i].draw(this.canvas);
     }
     // asteroids
     for (var i = 0; i < this.asteroids.length; i++) {
