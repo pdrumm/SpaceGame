@@ -114,6 +114,8 @@ class Astronaut extends Base {
 
   endOxygen() {
     this.gettingOxygen = false;
+    this.speedX = Math.random() * 5 - 2.5;
+    this.speedY = Math.random() * 5 - 2.5;
   }
 
   collideWithAsteroid(asteroids) {

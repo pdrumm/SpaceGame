@@ -169,7 +169,7 @@ class GameEngine {
     }
     if (this.gameOver && keyPressed == " ") {
       this.init();
-    } else if (keyPressed == " ") {
+    } else if (keyPressed == "u") {
       this.startOxygen();
     } else if (keyPressed == "o") { // FULL SCREEN STUFF
       if (
