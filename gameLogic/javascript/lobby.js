@@ -6,9 +6,11 @@ var playerList=[], readyList=[];
 /*
 Add a listener for any player changes
  */
-db.ref('astronauts').on('child_added', function(snapshot) {
-    $("#p"+snapshot.key+" > span").addClass('online');
-    playerList.push(snapshot.key);
+db.ref('player-count').on('value', function(snapshot) {
+    $("#p"+snapshot.val()+" > span").addClass('online');
+    playerList.push(snapshot.val());
+    console.log(snapshot.val());
+    console.log(snapshot.key);
 });
 
 /*
@@ -46,18 +48,21 @@ db.ref().once('value', function(snapshot) {
             console.log("transaction successful");
           }
           playerId = snapshot.val();
-        });
-        if (playerId > 4) {
-          alert("Sorry, the lobby is currently full.");
-          return;
-        } else if (playerId==1) {
-          db.ref('ready-players').set({
-              1: false, 2: false, 3: false, 4: false
-          });
-        }
+        }).then(function(){
 
-        console.log("You are player " + playerId);
-        $("#p"+playerId).addClass('myself');
+            if (playerId > 4) {
+              alert("Sorry, the lobby is currently full.");
+              return;
+            } else if (playerId==1) {
+              db.ref('ready-players').set({
+                  1: false, 2: false, 3: false, 4: false
+              });
+            }
+
+            console.log("You are player " + playerId);
+            $("#p"+playerId).addClass('myself');
+        }
+      )
     }
 });
 
