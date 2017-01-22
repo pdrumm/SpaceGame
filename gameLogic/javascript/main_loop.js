@@ -1,5 +1,7 @@
 CANVAS_WIDTH = 1000;
 CANVAS_HEIGHT = 600;
+var ASTRONAUT_ID = 1;
+var ASTEROID_TYPE = 3;
 
 // creates a canvas element to be put in the html (idk why we are creating it but okay...)
 this.canvasElement = $("<canvas class=\"noBorders\"width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas");
@@ -12,8 +14,8 @@ var FPS = 30;
 var astronautRef = firebase.database().ref('/astronauts/');
 
 astronautRef.on('child_changed', function(snapshot) {
-  console.log(snapshot.val());
-  console.log(snapshot.key);
+  //console.log(snapshot.val());
+  //console.log(snapshot.key);
 	// if snapshot.key != ME
 	// 	update Astronaut
 	
