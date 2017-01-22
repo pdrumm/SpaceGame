@@ -48,7 +48,6 @@ class GameEngine {
     // update hammers
     for (var i = 0; i < this.hammers.length; i++) {
       var remove = this.hammers[i].update();
-      //updateHammers(this.hammers[i].centerX, this.hammers[i].centerY, this.hammers.[i].angle, this.hammers[i].astronautId, this.hammers[i].startTime, this.hammers[i].hammerId);
       // if hammer is off screen
       if (remove) {
         this.hammers.splice(i, 1);
@@ -96,6 +95,7 @@ class GameEngine {
   }
 
   draw() {
+    //console.log(this.hammers.length);
     // resetting canvas
     this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
     this.canvas.fillStyle = "#C0E3C0";
@@ -150,7 +150,6 @@ class GameEngine {
       	document.mozFullScreenEnabled ||
       	document.msFullscreenEnabled
       ) {
-        console.log("Full screenable!");
         // if we are full screen
         if (
         	document.fullscreenElement ||
@@ -189,6 +188,6 @@ class GameEngine {
   mouseDownHandler(event) {
     // handles full screen mode
     var rect = document.getElementById("canvasDiv").getBoundingClientRect();
-    this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY()));
+    this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY(), this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
   }
 }

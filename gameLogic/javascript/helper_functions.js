@@ -1,5 +1,5 @@
 class HelperFunctions {
-	
+
     static rectIntersects(aCenterX, aCenterY, aWidth, aHeight, bCenterX, bCenterY, bWidth, bHeight) {
     if (HelperFunctions.intersects(aCenterX - aWidth / 2, aCenterX + aWidth / 2, bCenterX - bWidth / 2, bCenterX + bWidth / 2)) {
       if (HelperFunctions.intersects(aCenterY - aHeight / 2, aCenterY + aHeight / 2, bCenterY - bHeight / 2, bCenterY + bHeight / 2)) {
@@ -33,6 +33,7 @@ class HelperFunctions {
   static leaveScreen(obj, canvasWidth, canvasHeight) {
     // detect whether asteroid goes off the screen
     if (canvasWidth < obj.getCenterX() - obj.getWidth()) {
+			console.log("HERE");
       return true;
     } else if (0 > obj.getCenterX() + obj.getWidth()) {
       return true;
@@ -53,12 +54,12 @@ class HelperFunctions {
   }
 
   // creates a new hammer and adds it to the list of hammers
-  static createHammer(mouseX, mouseY, centerX, centerY) {
+  static createHammer(mouseX, mouseY, centerX, centerY, canvasWidth, canvasHeight) {
     var angle = 180 + Math.atan2(centerY - mouseY, centerX - mouseX) * 180 / Math.PI;
     var startTime = Date();
     var hammerId = firebase.database().ref().push().key;
     setHammers(centerX, centerY, angle, 1, startTime, hammerId);
-    return new Hammer(centerX, centerY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, angle, ASTRONAUT_ID, startTime, hammerId);
+    return new Hammer(centerX, centerY, canvasWidth, canvasHeight, angle, ASTRONAUT_ID, startTime, hammerId);
   }
 
   // creates a new asteroid and adds it to the list of asteroids
@@ -92,7 +93,7 @@ class HelperFunctions {
       var size = Math.floor((Math.random() * 3) + 1);
       var speed = Math.floor((Math.random() * 60) + 20);
       var direction = Math.random() * 180 + 270;
-      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId); 
+      return new Asteroid(centerX, centerY, size, speed, canvasWidth, canvasHeight, direction, astronautId, startTime, type, asteroidId);
     } else if (entering == 3) {
       // left of screen
       var centerX = canvasWidth;

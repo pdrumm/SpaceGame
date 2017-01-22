@@ -17,6 +17,6 @@ class Asteroid extends Base{
     this.centerY = this.originY + HelperFunctions.getDirectionY(this.direction) * pixelsPerSecond * (Date.now() - this.originTime) / 1000;
     this.angle = (this.angle + 90 * (Date.now() - this.lastTime) / 1000) % 360;
     this.lastTime = Date.now();
-    return HelperFunctions.leaveScreen(this, this.canvasWidth, this.canvasHeight);
+    //return HelperFunctions.leaveScreen(this, this.canvasWidth, this.canvasHeight);
   }
 }
