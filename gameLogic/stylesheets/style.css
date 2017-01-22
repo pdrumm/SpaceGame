@@ -1,0 +1,66 @@
+body {
+	background-color: navy;
+	text-align: center;
+	color: white;
+}
+
+h1 {
+    font-family: 'Audiowide', Verdana, Tahoma;
+	font-size: 72px;
+	padding: 10px;
+}
+
+.player {
+	width: 256px;
+}
+
+#playerDisplay {
+	text-align: center;
+	margin: auto;
+}
+
+td { 
+	padding: 10px 20px;
+	font-size: 24px;
+}
+
+.tint {
+  width: 100%;
+  height: auto;
+  
+  -webkit-filter: grayscale(100%) 
+          brightness(135%)
+          contrast(120%);
+  filter: grayscale(100%) 
+          brightness(40%)
+          contrast(120%);
+  
+  transition: filter 0.3s;
+  -webkit-transition: filter 0.3s, -webkit-filter 0.3s;
+}
+
+.online {
+	-webkit-filter: none;
+	filter: none;
+}
+
+.myself {
+	background-color: rgba(255, 255, 255, 0.4);
+}
+
+#readybtn {
+	padding: 10px;
+	font-size: 30px;
+}
+
+.readystatus .notreadystatus {
+	font-weight: bolder;
+}
+
+.readystatus {
+	color: lime;
+}
+
+.notreadystatus {
+	color: red;
+}
