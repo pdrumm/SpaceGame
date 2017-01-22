@@ -2,7 +2,7 @@ class GameEngine {
 
   constructor(width, height, canvas) {
     this.CANVAS_WIDTH = width; //window.innerWidth;
-    this.CANVAS_HEIGHT = height; // window.innerHeight;
+    this.CANVAS_HEIGHT = height - 40; // window.innerHeight;
     this.canvas = canvas;
     this.init();
   }
@@ -21,9 +21,9 @@ class GameEngine {
     this.keys = new Array();
     // if the game is over
     this.gameOver = false;
-    this.oxygen = new Oxygen(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT - 25, this.CANVAS_WIDTH, 50);
     this.space = new Space(this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     this.gettingOxygen = false;
+    this.stats = new Stats(0, this.CANVAS_HEIGHT, this.CANVAS_WIDTH, 40);
   }
 
   update() {
@@ -96,9 +96,9 @@ class GameEngine {
 
   draw() {
     // resetting canvas
-    this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
     this.canvas.fillStyle = "#C0E3C0";
-    this.canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    this.canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
     this.space.draw(this.canvas);
     // rocket
     this.rocket.draw(this.canvas);
@@ -112,11 +112,11 @@ class GameEngine {
     for (var i = 0; i < this.hammers.length; i++) {
       this.hammers[i].draw(this.canvas);
     }
-    this.oxygen.draw(this.canvas, this.astronaut.getOxygen());
+    this.stats.draw(this.canvas, this.astronaut.getOxygen());
     // game over screen
     if (this.gameOver) {
       canvas.fillStyle = "#000000";
-      canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+      canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
       canvas.fillStyle = "#666666";
       canvas.textAlign = "center";
       canvas.font = "18px serif";
