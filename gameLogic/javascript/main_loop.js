@@ -1,7 +1,19 @@
 CANVAS_WIDTH = 1000;
 CANVAS_HEIGHT = 600;
-var ASTRONAUT_ID = 1;
 var ASTEROID_TYPE = 3;
+
+function getParameterByName(name, url) {
+    if (!url) {
+        url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+var ASTRONAUT_ID = getParameterByName("pid");
 
 // creates a canvas element to be put in the html (idk why we are creating it but okay...)
 this.canvasElement = $("<canvas class=\"noBorders\"width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas");
