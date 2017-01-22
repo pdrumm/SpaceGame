@@ -95,7 +95,6 @@ class GameEngine {
   }
 
   draw() {
-    //console.log(this.hammers.length);
     // resetting canvas
     this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
     this.canvas.fillStyle = "#C0E3C0";

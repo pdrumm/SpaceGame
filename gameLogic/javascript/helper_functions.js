@@ -33,7 +33,6 @@ class HelperFunctions {
   static leaveScreen(obj, canvasWidth, canvasHeight) {
     // detect whether asteroid goes off the screen
     if (canvasWidth < obj.getCenterX() - obj.getWidth()) {
-			console.log("HERE");
       return true;
     } else if (0 > obj.getCenterX() + obj.getWidth()) {
       return true;
