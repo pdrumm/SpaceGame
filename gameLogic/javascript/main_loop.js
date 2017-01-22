@@ -1,6 +1,5 @@
 CANVAS_WIDTH = 1000;
 CANVAS_HEIGHT = 600;
-var ASTRONAUT_ID = 1;
 var ASTEROID_TYPE = 3;
 
 function getParameterByName(name, url) {
