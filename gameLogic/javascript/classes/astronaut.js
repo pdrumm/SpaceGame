@@ -94,7 +94,7 @@ class Astronaut extends Base {
         boostY = (90 - angle) / 90 * this.boost;
       } else if (angle < 360) {
         angle = angle - 270;
-        boostX = - (90 - angle) / 90 * this.boost;ddd
+        boostX = - (90 - angle) / 90 * this.boost;
         boostY = - (angle) / 90 * this.boost;
       }
 
