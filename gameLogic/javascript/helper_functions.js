@@ -32,12 +32,16 @@ class HelperFunctions {
 
   static leaveScreen(obj, canvasWidth, canvasHeight) {
     // detect whether asteroid goes off the screen
+    // right-edge
     if (canvasWidth < obj.getCenterX() - obj.getWidth()) {
       return true;
+    // left-edge
     } else if (0 > obj.getCenterX() + obj.getWidth()) {
       return true;
+    // bottom-edge
     } else if (canvasHeight < obj.getCenterY() - obj.getHeight()) {
       return true;
+    // top-edge
     } else if (0 > obj.getCenterY() + obj.getHeight()) {
       return true;
     }
@@ -58,7 +62,7 @@ class HelperFunctions {
     var startTime = Date.now();
     var hammerId = firebase.database().ref().push().key;
     setHammers(centerX, centerY, angle, ASTRONAUT_ID, startTime, hammerId);
-    return new Hammer(centerX, centerY, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, angle, ASTRONAUT_ID, startTime, hammerId);
+    return new Hammer(centerX, centerY, canvasWidth, canvasHeight, angle, ASTRONAUT_ID, startTime, hammerId);
   }
 
   // creates a new asteroid and adds it to the list of asteroids
