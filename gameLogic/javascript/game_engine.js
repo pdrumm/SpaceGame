@@ -45,9 +45,7 @@ class GameEngine {
     this.space.update();
     // create a new asteroid after a certain amount of time
     if (Date.now() - this.lastAsteroid > this.asteroidInterval) {
-      //this.asteroids.push(HelperFunctions.createAsteroid(CANVAS_WIDTH, CANVAS_HEIGHT));
-      // look at mouseDownHandler to see why the above line was removed
-      HelperFunctions.createAsteroid(CANVAS_WIDTH, CANVAS_HEIGHT);
+      this.asteroids.push(HelperFunctions.createAsteroid(CANVAS_WIDTH, CANVAS_HEIGHT));
       this.asteroidInterval = Math.random() * 2000 + 1000;
       this.lastAsteroid = Date.now();
     }
@@ -66,6 +64,8 @@ class GameEngine {
     // update hammers
     for (var i = 0; i < this.hammers.length; i++) {
       var remove = this.hammers[i].update();
+      console.log(this.hammers[i].astronautId);
+      console.log(this.hammers[i].hammerId);
       // if hammer is off screen
       if (remove) {
         this.destroyHammer(i);
@@ -238,13 +238,7 @@ class GameEngine {
     // handles full screen mode
     if (Date.now() - this.lastHammer > 500) {
       var rect = document.getElementById("canvasDiv").getBoundingClientRect();
-      /*
-      i think the logic that pulls hammers from the database adds both hammers from other players and the current player,
-      so the current player's hammers were being duplicated in our local list of hammers,
-      so instead of adding the hammer to our local list here we will just add it whenever we pull it from the database.
-      we probs could change it in the other section, but idk which one is better haha, either way is probably fine
-      */
-      HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY());
+      this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY()));
       this.lastHammer = Date.now();
     }
   }

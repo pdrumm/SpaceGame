@@ -53,29 +53,35 @@ astronautRef.on('child_added', function(snapshot) {
 
 var hammerRef = firebase.database().ref('/hammers/');
 hammerRef.on('child_added', function(snapshot){
-  gameEngine.hammers.push(new Hammer(
-	  snapshot.val()["centerX"],
-	  snapshot.val()["centerY"],
-	  snapshot.val()["angle"],
-	  snapshot.val()["astronautId"],
-	  snapshot.val()["startTime"],
-	  snapshot.val()["hammerId"])
-  );
+  if (snapshot.val()["astronautId"] != ASTRONAUT_ID)
+    {
+    gameEngine.hammers.push(new Hammer(
+  	  snapshot.val()["centerX"],
+  	  snapshot.val()["centerY"],
+  	  snapshot.val()["angle"],
+  	  snapshot.val()["astronautId"],
+  	  snapshot.val()["startTime"],
+  	  snapshot.val()["hammerId"])
+    );
+  }
 });
 
 var asteroidRef = firebase.database().ref('/asteroids/');
 asteroidRef.on('child_added', function(snapshot){
-  gameEngine.asteroids.push(new Asteroid(
-	  snapshot.val()["centerX"],
-	  snapshot.val()["centerY"],
-	  snapshot.val()["size"],
-	  snapshot.val()["speed"],
-	  snapshot.val()["angle"],
-	  snapshot.val()["astronautId"],
-	  snapshot.val()["startTime"],
-	  snapshot.val()["type"],
-	  snapshot.val()["asteroidId"]
-  ));
+  if (snapshot.val()["astronautId"] != ASTRONAUT_ID)
+    {
+    gameEngine.asteroids.push(new Asteroid(
+  	  snapshot.val()["centerX"],
+  	  snapshot.val()["centerY"],
+  	  snapshot.val()["size"],
+  	  snapshot.val()["speed"],
+  	  snapshot.val()["angle"],
+  	  snapshot.val()["astronautId"],
+  	  snapshot.val()["startTime"],
+  	  snapshot.val()["type"],
+  	  snapshot.val()["asteroidId"]
+    ));
+  }
 });
 
 firebase.database().ref('/rocket/powers/oxygen-refill').on('value', function(snapshot) {
