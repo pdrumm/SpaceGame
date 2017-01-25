@@ -17,7 +17,7 @@ class Hammer extends Base{
     // update rotation
     this.angle = (this.angle + 90 * (Date.now() - this.lastTime) / 250) % 360;
     this.lastTime = Date.now();
-    return HelperFunctions.leaveScreen(this, this.canvasWidth, this.canvasHeight);
+    return HelperFunctions.leaveScreen(this, CANVAS_WIDTH, CANVAS_HEIGHT);
   }
 
   collideWithAsteroid(asteroids) {

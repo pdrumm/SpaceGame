@@ -5,8 +5,8 @@ class Base {
     this.centerY = centerY;
     this.width = width;
     this.height = height;
-    this.canvasWidth = canvasWidth;
-    this.canvasHeight = canvasHeight;
+    this.canvasWidth = CANVAS_WIDTH;
+    this.canvasHeight = CANVAS_HEIGHT;
     this.img = document.getElementById(img);
 
     this.angle = 0;

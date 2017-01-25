@@ -21,14 +21,14 @@ class Astronaut extends Base {
         var direction = 180 + Math.atan2(this.oxygenY - this.canvasHeight / 2, this.oxygenX - this.canvasWidth / 2) * 180 / Math.PI;
         this.centerX = this.oxygenX + HelperFunctions.getDirectionX(direction) * pixelsPerSecond * (Date.now() - this.oxygenTime) / 1000;
         this.centerY = this.oxygenY + HelperFunctions.getDirectionY(direction) * pixelsPerSecond * (Date.now() - this.oxygenTime) / 1000;
-        if (this.oxygenX < this.canvasWidth / 2 && this.centerX > this.canvasWidth / 2) {
-          this.centerX = this.canvasWidth / 2;
-          this.centerY = this.canvasHeight / 2;
+        if (this.oxygenX < CANVAS_WIDTH / 2 && this.centerX > CANVAS_WIDTH / 2) {
+          this.centerX = CANVAS_WIDTH / 2;
+          this.centerY = CANVAS_HEIGHT / 2;
           this.speedX = 0;
           this.speedY = 0;
-        } else if (this.oxygenX > this.canvasWidth / 2 && this.centerX < this.canvasWidth / 2) {
-          this.centerX = this.canvasWidth / 2;
-          this.centerY = this.canvasHeight / 2;
+        } else if (this.oxygenX > CANVAS_WIDTH / 2 && this.centerX < CANVAS_WIDTH / 2) {
+          this.centerX = CANVAS_WIDTH / 2;
+          this.centerY = CANVAS_HEIGHT / 2;
           this.speedX = 0;
           this.speedY = 0;
         }
@@ -48,16 +48,16 @@ class Astronaut extends Base {
       this.centerX += this.speedX;
       this.centerY += this.speedY;
       // go through left and right of map
-      if (this.canvasWidth < this.centerX - this.width) {
+      if (CANVAS_WIDTH < this.centerX - this.width) {
         this.centerX = 0 - this.width / 2;
       } else if (0 > this.centerX + this.width) {
-        this.centerX = this.canvasWidth + this.width / 2;
+        this.centerX = CANVAS_WIDTH + this.width / 2;
       }
       // go through top and bottom of map
-      if (this.canvasHeight < this.centerY - this.height) {
+      if (CANVAS_HEIGHT < this.centerY - this.height) {
         this.centerY = 0 - this.height / 2;
       } else if (0 > this.centerY + this.height) {
-        this.centerY = this.canvasHeight + this.height / 2;
+        this.centerY = CANVAS_HEIGHT + this.height / 2;
       }
     }
 

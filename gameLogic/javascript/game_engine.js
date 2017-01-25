@@ -1,8 +1,13 @@
+// declares the width and height of the html canvas
+// these values will be set to different values in the constructor
+let CANVAS_WIDTH = 0;
+let CANVAS_HEIGHT = 0;
+
 class GameEngine {
 
   constructor(width, height, canvas) {
-    this.CANVAS_WIDTH = width; //window.innerWidth;
-    this.CANVAS_HEIGHT = height - 40; // window.innerHeight;
+    CANVAS_WIDTH = width; //window.innerWidth;
+    CANVAS_HEIGHT = height - 40; // window.innerHeight;
     this.canvas = canvas;
     this.init();
   }
@@ -10,15 +15,15 @@ class GameEngine {
   // initializes the game
   // this is separate from the constructor
   init() {
-    this.rocket = new Rocket(this.CANVAS_WIDTH / 2, this.CANVAS_HEIGHT / 2, 50, 100);
+    this.rocket = new Rocket(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 50, 100);
     setRocket(null, FULL_HEALTH);
     var astronautX = 0;
     if (ASTRONAUT_ID < 3) {
-      astronautX = this.CANVAS_WIDTH / 2 - 50 * ASTRONAUT_ID - 100;
+      astronautX = CANVAS_WIDTH / 2 - 50 * ASTRONAUT_ID - 100;
     } else {
-      astronautX = this.CANVAS_WIDTH / 2 + 50 * ASTRONAUT_ID + 100;
+      astronautX = CANVAS_WIDTH / 2 + 50 * ASTRONAUT_ID + 100;
     }
-    this.astronaut = new Astronaut(astronautX, this.CANVAS_HEIGHT / 2, 20, 40, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, ASTRONAUT_ID);
+    this.astronaut = new Astronaut(astronautX, CANVAS_HEIGHT / 2, 20, 40, CANVAS_WIDTH, CANVAS_HEIGHT, ASTRONAUT_ID);
     this.astronauts = {};
     setAstronauts(100, 100, this.astronaut.angle, ASTRONAUT_ID);
     this.asteroids = new Array();
@@ -29,9 +34,9 @@ class GameEngine {
     this.keys = new Array();
     // if the game is over
     this.gameOver = false;
-    this.space = new Space(this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+    this.space = new Space(CANVAS_WIDTH, CANVAS_HEIGHT);
     this.gettingOxygen = false;
-    this.stats = new Stats(0, this.CANVAS_HEIGHT, this.CANVAS_WIDTH, 40);
+    this.stats = new Stats(0, CANVAS_HEIGHT, CANVAS_WIDTH, 40);
     this.asteroidInterval = 2000;
     this.lastHammer = Date.now();
     this.sonicBoomTime = 0;
@@ -41,7 +46,7 @@ class GameEngine {
     this.space.update();
     // create a new asteroid after a certain amount of time
     if (Date.now() - this.lastAsteroid > this.asteroidInterval) {
-      this.asteroids.push(HelperFunctions.createAsteroid(this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
+      this.asteroids.push(HelperFunctions.createAsteroid(CANVAS_WIDTH, CANVAS_HEIGHT));
       this.asteroidInterval = Math.random() * 2000 + 1000;
       this.lastAsteroid = Date.now();
     }
@@ -124,9 +129,9 @@ class GameEngine {
 
   draw() {
     // resetting canvas
-    this.canvas.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
+    this.canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT + 40);
     this.canvas.fillStyle = "#C0E3C0";
-    this.canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT + 40);
+    this.canvas.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT + 40);
     this.space.draw(this.canvas);
     // rocket
     this.rocket.draw(this.canvas);
@@ -151,7 +156,7 @@ class GameEngine {
       } else {
         this.canvas.fillStyle = "rgba(255, 255, 255, " + (3000 - (Date.now() - this.sonicBoomTime)) / 3000 + ")";
       }
-      this.canvas.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+      this.canvas.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
     this.stats.draw(this.canvas, this.astronaut.getOxygen());
   }
@@ -232,7 +237,7 @@ class GameEngine {
     // handles full screen mode
     if (Date.now() - this.lastHammer > 500) {
       var rect = document.getElementById("canvasDiv").getBoundingClientRect();
-      this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY(), this.CANVAS_WIDTH, this.CANVAS_HEIGHT));
+      this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY(), CANVAS_WIDTH, CANVAS_HEIGHT));
       this.lastHammer = Date.now();
     }
   }
