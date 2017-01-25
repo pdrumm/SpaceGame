@@ -1,7 +1,7 @@
 class Hammer extends Base{
 
-  constructor(centerX, centerY, canvasWidth, canvasHeight, direction, astronautId, startTime, hammerId) {
-    super(centerX, centerY, 20, 40, canvasWidth, canvasHeight, "hammer");
+  constructor(centerX, centerY, direction, astronautId, startTime, hammerId) {
+    super(centerX, centerY, 20, 40, "hammer");
     this.direction = direction;
     this.originX = centerX;
     this.originY = centerY;

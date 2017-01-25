@@ -1,5 +1,5 @@
-CANVAS_WIDTH = 1000;
-CANVAS_HEIGHT = 600;
+let CANVAS_WIDTH = 1000;
+let CANVAS_HEIGHT = 600;
 var ASTEROID_TYPE = 3;
 var FULL_HEALTH = 100;
 
@@ -24,7 +24,7 @@ playerRef.onDisconnect().remove();
 this.canvasElement = $("<canvas class=\"noBorders\"width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas");
 this.canvas = this.canvasElement.get(0).getContext("2d");
 this.canvasElement.appendTo('#canvasDiv');
-var gameEngine = new GameEngine(CANVAS_WIDTH, CANVAS_HEIGHT, canvas);
+var gameEngine = new GameEngine(canvas);
 var FPS = 30;
 
 //Listen from DB to space
@@ -46,8 +46,6 @@ astronautRef.on('child_added', function(snapshot) {
 	  snapshot.val()["centerY"],
 	  20,
 	  40,
-	  CANVAS_WIDTH,
-	  CANVAS_HEIGHT,
 	  snapshot.key
       )
     }
@@ -58,8 +56,6 @@ hammerRef.on('child_added', function(snapshot){
   gameEngine.hammers.push(new Hammer(
 	  snapshot.val()["centerX"],
 	  snapshot.val()["centerY"],
-	  CANVAS_WIDTH,
-	  CANVAS_HEIGHT,
 	  snapshot.val()["angle"],
 	  snapshot.val()["astronautId"],
 	  snapshot.val()["startTime"],
@@ -74,8 +70,6 @@ asteroidRef.on('child_added', function(snapshot){
 	  snapshot.val()["centerY"],
 	  snapshot.val()["size"],
 	  snapshot.val()["speed"],
-	  CANVAS_WIDTH,
-	  CANVAS_HEIGHT,
 	  snapshot.val()["angle"],
 	  snapshot.val()["astronautId"],
 	  snapshot.val()["startTime"],

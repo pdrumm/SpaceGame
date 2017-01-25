@@ -1,7 +1,7 @@
 class Astronaut extends Base {
 
-  constructor(centerX, centerY, width, height, canvasWidth, canvasHeight, astronautId) {
-    super(centerX, centerY, width, height, canvasWidth, canvasHeight, "astronaut" + astronautId);
+  constructor(centerX, centerY, width, height, astronautId) {
+    super(centerX, centerY, width, height, "astronaut" + astronautId);
     this.boost = .2;
     this.gettingOxygen = false;
     this.oxygenTime = Date.now();
@@ -12,13 +12,13 @@ class Astronaut extends Base {
 
   update(keys) {
     if (this.gettingOxygen) {
-      if (this.centerX != this.canvasWidth / 2 && this.centerY != this.canvasHeight / 2) {
+      if (this.centerX != CANVAS_WIDTH / 2 && this.centerY != CANVAS_HEIGHT / 2) {
         // decrease oxygen
         this.oxygen = this.oxygen - (Date.now() - this.lastTime) / 400;
-        // this.centerX = this.oxygenX + (this.canvasWidth / 2 - this.centerX) / 100;
-        // this.centerY = this.oxygenY + (this.canvasHeight / 2 - this.centerY) / 100;
+        // this.centerX = this.oxygenX + (CANVAS_WIDTH / 2 - this.centerX) / 100;
+        // this.centerY = this.oxygenY + (CANVAS_HEIGHT / 2 - this.centerY) / 100;
         var pixelsPerSecond = 100;
-        var direction = 180 + Math.atan2(this.oxygenY - this.canvasHeight / 2, this.oxygenX - this.canvasWidth / 2) * 180 / Math.PI;
+        var direction = 180 + Math.atan2(this.oxygenY - CANVAS_HEIGHT / 2, this.oxygenX - CANVAS_WIDTH / 2) * 180 / Math.PI;
         this.centerX = this.oxygenX + HelperFunctions.getDirectionX(direction) * pixelsPerSecond * (Date.now() - this.oxygenTime) / 1000;
         this.centerY = this.oxygenY + HelperFunctions.getDirectionY(direction) * pixelsPerSecond * (Date.now() - this.oxygenTime) / 1000;
         if (this.oxygenX < CANVAS_WIDTH / 2 && this.centerX > CANVAS_WIDTH / 2) {

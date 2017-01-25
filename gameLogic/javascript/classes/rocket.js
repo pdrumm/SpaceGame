@@ -1,7 +1,7 @@
 class Rocket extends Base {
 
   constructor(centerX, centerY, width, height) {
-    super(centerX, centerY, width, height, 0, 0, "rocket");
+    super(centerX, centerY, width, height, "rocket");
     this.angle = 90;
     this.flame1 = document.getElementById("flame1");
     this.flame2 = document.getElementById("flame2");

@@ -1,12 +1,10 @@
 class Base {
 
-  constructor(centerX, centerY, width, height, canvasWidth, canvasHeight, img) {
+  constructor(centerX, centerY, width, height, img) {
     this.centerX = centerX;
     this.centerY = centerY;
     this.width = width;
     this.height = height;
-    this.canvasWidth = CANVAS_WIDTH;
-    this.canvasHeight = CANVAS_HEIGHT;
     this.img = document.getElementById(img);
 
     this.angle = 0;

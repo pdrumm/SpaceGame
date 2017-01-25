@@ -1,13 +1,12 @@
-// declares the width and height of the html canvas
-// these values will be set to different values in the constructor
-let CANVAS_WIDTH = 0;
-let CANVAS_HEIGHT = 0;
+/*
+  currently the global variables CANVAS_WIDTH and CANVAS_HEIGHT are being declared in main_loop.js
+  however, I feel like it would be better to have them within game_engine.js,
+  so maybe I will change that later
+*/
 
 class GameEngine {
 
-  constructor(width, height, canvas) {
-    CANVAS_WIDTH = width; //window.innerWidth;
-    CANVAS_HEIGHT = height - 40; // window.innerHeight;
+  constructor(canvas) {
     this.canvas = canvas;
     this.init();
   }
@@ -23,7 +22,7 @@ class GameEngine {
     } else {
       astronautX = CANVAS_WIDTH / 2 + 50 * ASTRONAUT_ID + 100;
     }
-    this.astronaut = new Astronaut(astronautX, CANVAS_HEIGHT / 2, 20, 40, CANVAS_WIDTH, CANVAS_HEIGHT, ASTRONAUT_ID);
+    this.astronaut = new Astronaut(astronautX, CANVAS_HEIGHT / 2, 20, 40, ASTRONAUT_ID);
     this.astronauts = {};
     setAstronauts(100, 100, this.astronaut.angle, ASTRONAUT_ID);
     this.asteroids = new Array();
@@ -34,9 +33,9 @@ class GameEngine {
     this.keys = new Array();
     // if the game is over
     this.gameOver = false;
-    this.space = new Space(CANVAS_WIDTH, CANVAS_HEIGHT);
+    this.space = new Space();
     this.gettingOxygen = false;
-    this.stats = new Stats(0, CANVAS_HEIGHT, CANVAS_WIDTH, 40);
+    this.stats = new Stats(0, CANVAS_HEIGHT - 40, CANVAS_WIDTH, 40);
     this.asteroidInterval = 2000;
     this.lastHammer = Date.now();
     this.sonicBoomTime = 0;
@@ -46,7 +45,9 @@ class GameEngine {
     this.space.update();
     // create a new asteroid after a certain amount of time
     if (Date.now() - this.lastAsteroid > this.asteroidInterval) {
-      this.asteroids.push(HelperFunctions.createAsteroid(CANVAS_WIDTH, CANVAS_HEIGHT));
+      //this.asteroids.push(HelperFunctions.createAsteroid(CANVAS_WIDTH, CANVAS_HEIGHT));
+      // look at mouseDownHandler to see why the above line was removed
+      HelperFunctions.createAsteroid(CANVAS_WIDTH, CANVAS_HEIGHT);
       this.asteroidInterval = Math.random() * 2000 + 1000;
       this.lastAsteroid = Date.now();
     }
@@ -237,7 +238,13 @@ class GameEngine {
     // handles full screen mode
     if (Date.now() - this.lastHammer > 500) {
       var rect = document.getElementById("canvasDiv").getBoundingClientRect();
-      this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY(), CANVAS_WIDTH, CANVAS_HEIGHT));
+      /*
+      i think the logic that pulls hammers from the database adds both hammers from other players and the current player,
+      so the current player's hammers were being duplicated in our local list of hammers,
+      so instead of adding the hammer to our local list here we will just add it whenever we pull it from the database.
+      we probs could change it in the other section, but idk which one is better haha, either way is probably fine
+      */
+      HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY());
       this.lastHammer = Date.now();
     }
   }

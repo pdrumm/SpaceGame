@@ -1,8 +1,6 @@
 class Space {
 
-  constructor(canvasWidth, canvasHeight) {
-    this.canvasWidth = canvasWidth;
-    this.canvasHeight = canvasHeight;
+  constructor() {
     this.imgSpaceBack = document.getElementById("space_back");
     this.imgSpaceLgStars = document.getElementById("space_lgStars");
     this.imgSpaceSmStars = document.getElementById("space_smStars");
