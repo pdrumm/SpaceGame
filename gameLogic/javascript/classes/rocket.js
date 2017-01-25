@@ -1,22 +1,21 @@
 class Rocket extends Base {
 
   constructor(centerX, centerY) {
-    super(centerX, centerY, Rocket.WIDTH, Rocket.HEIGHT, Rocket.IMAGE_ROCKET);
-    this.angle = 90;
-    this.flame1 = document.getElementById(Rocket.IMAGE_FLAME1);
-    this.flame2 = document.getElementById(Rocket.IMAGE_FLAME2);
-    this.flame3 = document.getElementById(Rocket.IMAGE_FLAME3);
+    super(centerX, centerY, Rocket.WIDTH, Rocket.HEIGHT, Rocket.IMAGE_ROCKET, Rocket.ANGLE);
 
     let flameCenterX = this.centerX - this.width * 2 / 1.5;
     let flameCenterY = this.centerY;
     let flameWidth = this.width / 2;
     let flameHeight = this.height / 2;
-    this.flame_1 = new Base(flameCenterX, flameCenterY, flameWidth, flameHeight, Rocket.IMAGE_FLAME1);
-    this.flame_1.angle = 90;
-    this.flame_2 = new Base(flameCenterX, flameCenterY, flameWidth, flameHeight, Rocket.IMAGE_FLAME2);
-    this.flame_2.angle = 90;
-    this.flame_3 = new Base(flameCenterX, flameCenterY, flameWidth, flameHeight, Rocket.IMAGE_FLAME3);
-    this.flame_3.angle = 90;
+    let flameAngle = this.angle;
+    /*
+      BUG
+      the flames only draw correctly if the rocket is at an angle of 90.
+      otherwise, the flames will be drawn in an incorrect position.
+    */
+    this.flame_1 = new Base(flameCenterX, flameCenterY, flameWidth, flameHeight, Rocket.IMAGE_FLAME1, flameAngle);
+    this.flame_2 = new Base(flameCenterX, flameCenterY, flameWidth, flameHeight, Rocket.IMAGE_FLAME2, flameAngle);
+    this.flame_3 = new Base(flameCenterX, flameCenterY, flameWidth, flameHeight, Rocket.IMAGE_FLAME3, flameAngle);
   }
 
   draw(canvas) {
@@ -52,8 +51,10 @@ class Rocket extends Base {
   }
 }
 
+// constants for Rocket class
 Rocket.WIDTH = 50;
 Rocket.HEIGHT = 100;
+Rocket.ANGLE = 90;
 Rocket.IMAGE_ROCKET = "rocket";
 Rocket.IMAGE_FLAME1 = "flame1";
 Rocket.IMAGE_FLAME2 = "flame2";

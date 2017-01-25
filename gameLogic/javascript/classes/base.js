@@ -1,13 +1,13 @@
 class Base {
 
-  constructor(centerX, centerY, width, height, img) {
+  constructor(centerX, centerY, width, height, img, angle=0) {
     this.centerX = centerX;
     this.centerY = centerY;
     this.width = width;
     this.height = height;
     this.img = document.getElementById(img);
-
-    this.angle = 0;
+    this.angle = angle;
+    
     this.lastTime = Date.now();
     this.speedX = 0;
     this.speedY = 0;
