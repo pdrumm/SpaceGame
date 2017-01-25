@@ -1,31 +1,43 @@
 class Rocket extends Base {
 
-  constructor(centerX, centerY, width, height) {
-    super(centerX, centerY, width, height, "rocket");
+  constructor(centerX, centerY) {
+    super(centerX, centerY, Rocket.WIDTH, Rocket.HEIGHT, Rocket.IMAGE_ROCKET);
     this.angle = 90;
-    this.flame1 = document.getElementById("flame1");
-    this.flame2 = document.getElementById("flame2");
-    this.flame3 = document.getElementById("flame3");
+    this.flame1 = document.getElementById(Rocket.IMAGE_FLAME1);
+    this.flame2 = document.getElementById(Rocket.IMAGE_FLAME2);
+    this.flame3 = document.getElementById(Rocket.IMAGE_FLAME3);
+
+    let flameCenterX = this.centerX - this.width * 2 / 1.5;
+    let flameCenterY = this.centerY;
+    let flameWidth = this.width / 2;
+    let flameHeight = this.height / 2;
+    this.flame_1 = new Base(flameCenterX, flameCenterY, flameWidth, flameHeight, Rocket.IMAGE_FLAME1);
+    this.flame_1.angle = 90;
+    this.flame_2 = new Base(flameCenterX, flameCenterY, flameWidth, flameHeight, Rocket.IMAGE_FLAME2);
+    this.flame_2.angle = 90;
+    this.flame_3 = new Base(flameCenterX, flameCenterY, flameWidth, flameHeight, Rocket.IMAGE_FLAME3);
+    this.flame_3.angle = 90;
   }
 
   draw(canvas) {
-    // this is kinda sloppy, but it works so I'm gonna keep it for now
-    canvas.translate(this.centerX - this.width / 2, this.centerY);
-    canvas.rotate(this.angle * Math.PI / 180);
-    //canvas.drawImage(this.flame1, -this.centerX, -this.centerY, this.width / 2, this.height / 2);
-    var flameTime = Math.floor(Date.now() / 100) % 4;
-    var currFlame = this.flame1;
-    if (flameTime == 0) {
-      currFlame = this.flame2;
-    } else if (flameTime == 1) {
-      currFlame = this.flame3;
-    } else if (flameTime == 2) {
-      currFlame = this.flame2;
-    }
-    canvas.drawImage(currFlame, -this.width / 4, 10, this.width / 2, this.height / 2);
-    canvas.rotate(- this.angle * Math.PI / 180);
-    canvas.translate(- this.centerX + this.width / 2, - this.centerY);
+    this.getCurrentFlame().draw(canvas);
     super.draw(canvas);
+  }
+
+  getCurrentFlame() {
+    let currentFlame;
+    let flameTime = Math.floor(Date.now() / 150) % 4;
+    switch(flameTime) {
+      case 0:
+          currentFlame = this.flame_1;
+          break;
+      case 2:
+          currentFlame = this.flame_3;
+          break;
+      default:
+          currentFlame = this.flame_2;
+    }
+    return currentFlame;
   }
 
   collideWithAsteroid(asteroids) {
@@ -39,3 +51,10 @@ class Rocket extends Base {
     return -1;
   }
 }
+
+Rocket.WIDTH = 50;
+Rocket.HEIGHT = 100;
+Rocket.IMAGE_ROCKET = "rocket";
+Rocket.IMAGE_FLAME1 = "flame1";
+Rocket.IMAGE_FLAME2 = "flame2";
+Rocket.IMAGE_FLAME3 = "flame3";

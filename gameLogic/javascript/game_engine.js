@@ -14,7 +14,7 @@ class GameEngine {
   // initializes the game
   // this is separate from the constructor
   init() {
-    this.rocket = new Rocket(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 50, 100);
+    this.rocket = new Rocket(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
     setRocket(null, FULL_HEALTH);
     var astronautX = 0;
     if (ASTRONAUT_ID < 3) {
