@@ -43,7 +43,7 @@ class Rocket extends Base {
     //return HelperFunctions.collideWithAsteroid(this, asteroids);
     for (var i = 0; i < asteroids.length; i++) {
       var asteroid = asteroids[i];
-      if (HelperFunctions.rectIntersects(this.centerX, this.centerY, this.height, this.width, asteroid.getCenterX(), asteroid.getCenterY(), asteroid.getWidth(), asteroid.getHeight())) {
+      if (HelperFunctions.rectIntersects(this.centerX, this.centerY, this.height, this.width, asteroid.centerX, asteroid.centerY, asteroid.width, asteroid.height)) {
         return i;
       }
     }

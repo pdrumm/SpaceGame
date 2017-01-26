@@ -64,8 +64,6 @@ class GameEngine {
     // update hammers
     for (var i = 0; i < this.hammers.length; i++) {
       var remove = this.hammers[i].update();
-      console.log(this.hammers[i].astronautId);
-      console.log(this.hammers[i].hammerId);
       // if hammer is off screen
       if (remove) {
         this.destroyHammer(i);
@@ -140,7 +138,7 @@ class GameEngine {
     this.astronaut.draw(this.canvas);
 	  console.log("almost there");
     for (var i in this.astronauts) {
-      console.log("iterate", this.astronauts[i], i);
+      ("iterate", this.astronauts[i], i);
 	    this.astronauts[i].draw(this.canvas);
     }
     // asteroids
@@ -238,7 +236,7 @@ class GameEngine {
     // handles full screen mode
     if (Date.now() - this.lastHammer > 500) {
       var rect = document.getElementById("canvasDiv").getBoundingClientRect();
-      this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.getCenterX(), this.astronaut.getCenterY()));
+      this.hammers.push(HelperFunctions.createHammer(event.pageX - rect.left, event.pageY - rect.top, this.astronaut.centerX, this.astronaut.centerY));
       this.lastHammer = Date.now();
     }
   }

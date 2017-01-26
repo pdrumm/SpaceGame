@@ -23,7 +23,7 @@ class HelperFunctions {
   static collideWithAsteroid(obj, asteroids) {
     for (var i = 0; i < asteroids.length; i++) {
       var asteroid = asteroids[i];
-      if (HelperFunctions.rectIntersects(obj.centerX, obj.centerY, obj.width, obj.height, asteroid.getCenterX(), asteroid.getCenterY(), asteroid.getWidth(), asteroid.getHeight())) {
+      if (HelperFunctions.rectIntersects(obj.centerX, obj.centerY, obj.width, obj.height, asteroid.centerX, asteroid.centerY, asteroid.width, asteroid.height)) {
         return i;
       }
     }
@@ -33,16 +33,16 @@ class HelperFunctions {
   static leaveScreen(obj, canvasWidth, canvasHeight) {
     // detect whether asteroid goes off the screen
     // right-edge
-    if (canvasWidth < obj.getCenterX() - obj.getWidth()) {
+    if (canvasWidth < obj.centerX - obj.width) {
       return true;
     // left-edge
-    } else if (0 > obj.getCenterX() + obj.getWidth()) {
+  } else if (0 > obj.centerX + obj.width) {
       return true;
     // bottom-edge
-    } else if (canvasHeight < obj.getCenterY() - obj.getHeight()) {
+  } else if (canvasHeight < obj.centerY - obj.height) {
       return true;
     // top-edge
-    } else if (0 > obj.getCenterY() + obj.getHeight()) {
+  } else if (0 > obj.centerY + obj.height) {
       return true;
     }
     return false;
