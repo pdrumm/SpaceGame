@@ -118,7 +118,7 @@ class GameEngine {
 
   sonicBoom() {
     this.sonicBoomTime = Date.now();
-    firebase.database().ref('asteroids').remove();
+    GAME_REF.child('asteroids').remove();
     this.asteroids = new Array();
   }
 

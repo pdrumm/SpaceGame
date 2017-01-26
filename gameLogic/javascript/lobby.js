@@ -57,11 +57,26 @@ function cancelLobbyListeners() {
 
 // Redirect user to the game-play page
 function beginGame() {
-    db.ref('game-in-progress').set(true).then(function(){
-        var url = "./index.html?pid="+playerId;
-        window.location.replace(url);
-        window.location = url;
-    });
+
+  var gameRef = db.ref('liveGames').child(gameId);
+  gameRef.update({
+    "rocket": {
+      "health": 100,
+      "powers": {
+        "sonic-boom": false,
+        "oxygen-refill": -1
+      }
+    }
+  }).then(function() {
+    var url = "./index.html?pid="+playerId+"&gid="+gameId;
+    window.location.replace(url);
+    window.location = url;
+  });
+    //db.ref('game-in-progress').set(true).then(function(){
+    //    var url = "./index.html?pid="+playerId;
+    //    window.location.replace(url);
+    //    window.location = url;
+    //});
 }
 
 // Add this code to the game-play page

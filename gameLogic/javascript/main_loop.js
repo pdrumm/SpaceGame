@@ -15,9 +15,11 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 var ASTRONAUT_ID = getParameterByName("pid");
+var GAME_ID = getParameterByName("gid");
+var GAME_REF = firebase.database().ref('liveGames').child(GAME_ID);
 
 // Remove the player when they leave the game
-playerRef = firebase.database().ref('astronauts').child(ASTRONAUT_ID);
+playerRef = GAME_REF.child('astronauts').child(ASTRONAUT_ID);
 playerRef.onDisconnect().remove();
 
 // creates a canvas element to be put in the html (idk why we are creating it but okay...)
@@ -28,7 +30,7 @@ var gameEngine = new GameEngine(CANVAS_WIDTH, CANVAS_HEIGHT, canvas);
 var FPS = 30;
 
 //Listen from DB to space
-var astronautRef = firebase.database().ref('/astronauts/');
+var astronautRef = GAME_REF.child('astronauts');
 astronautRef.on('child_changed', function(snapshot) {
   if (snapshot.key != ASTRONAUT_ID)
     {
@@ -53,7 +55,7 @@ astronautRef.on('child_added', function(snapshot) {
     }
 });
 
-var hammerRef = firebase.database().ref('/hammers/');
+var hammerRef = GAME_REF.child('hammers');
 hammerRef.on('child_added', function(snapshot){
   gameEngine.hammers.push(new Hammer(
 	  snapshot.val()["centerX"],
@@ -67,7 +69,7 @@ hammerRef.on('child_added', function(snapshot){
   );
 });
 
-var asteroidRef = firebase.database().ref('/asteroids/');
+var asteroidRef = GAME_REF.child('asteroids');
 asteroidRef.on('child_added', function(snapshot){
   gameEngine.asteroids.push(new Asteroid(
 	  snapshot.val()["centerX"],
@@ -84,7 +86,7 @@ asteroidRef.on('child_added', function(snapshot){
   ));
 });
 
-firebase.database().ref('/rocket/powers/oxygen-refill').on('value', function(snapshot) {
+GAME_REF.child('rocket/powers/oxygen-refill').on('value', function(snapshot) {
     if (snapshot.val() < 1) {
       return;
     } else if(ASTRONAUT_ID == snapshot.val()) {
@@ -92,13 +94,13 @@ firebase.database().ref('/rocket/powers/oxygen-refill').on('value', function(sna
     } else {
       gameEngine.endOxygen();
     }
-    firebase.database().ref('/rocket/powers/oxygen-refill').set(-1);
+    GAME_REF.child('rocket/powers/oxygen-refill').set(-1);
 });
 
-firebase.database().ref('/rocket/powers/sonic-boom').on('value', function(snapshot) {
+GAME_REF.child('rocket/powers/sonic-boom').on('value', function(snapshot) {
     if (snapshot.val() == true) {
       gameEngine.sonicBoom();
-      firebase.database().ref('/rocket/powers/sonic-boom').set(false);
+      GAME_REF.child('rocket/powers/sonic-boom').set(false);
     }
 });
 

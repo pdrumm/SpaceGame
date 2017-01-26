@@ -18,13 +18,6 @@ function createNewGame() {
 			2: false,
 			3: false,
 			4: false
-		},
-		"rocket": {
-			"health": 100,
-			"powers": {
-				"sonic-boom": false,
-				"oxygen-refill": -1
-			}
 		}
 	});
 
@@ -38,7 +31,7 @@ area for that game.
 function goToLobby(_gameId, _playerId) {
 	$('#lobbyContainer').show();
 	$('#gameListContainer').hide();
-	$("#p"+playerId).addClass('myself');
+	$("#p"+_playerId).addClass('myself');
 	gameId = _gameId;
 	playerId = _playerId;
 	addLobbyListeners();
