@@ -1,7 +1,7 @@
 class Hammer extends Base{
 
   constructor(centerX, centerY, direction, astronautId, startTime, hammerId) {
-    super(centerX, centerY, 20, 40, "hammer");
+    super(centerX, centerY, Hammer.WIDTH, Hammer.HEIGHT, Hammer.IMAGE);
     this.direction = direction;
     this.originX = centerX;
     this.originY = centerY;
@@ -28,3 +28,7 @@ class Hammer extends Base{
     return this.hammerId;
   }
 }
+
+Hammer.WIDTH = 20;
+Hammer.HEIGHT = 40;
+Hammer.IMAGE = "hammer";

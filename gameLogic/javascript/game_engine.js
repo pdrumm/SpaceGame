@@ -45,7 +45,7 @@ class GameEngine {
     this.space.update();
     // create a new asteroid after a certain amount of time
     if (Date.now() - this.lastAsteroid > this.asteroidInterval) {
-      this.asteroids.push(HelperFunctions.createAsteroid(CANVAS_WIDTH, CANVAS_HEIGHT));
+      this.asteroids.push(HelperFunctions.createAsteroid());
       this.asteroidInterval = Math.random() * 2000 + 1000;
       this.lastAsteroid = Date.now();
     }
