@@ -1,0 +1,6 @@
+#gameList > li {
+    cursor: pointer;
+}
+#gameList > li:hover {
+    color: lightskyblue;
+}

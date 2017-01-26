@@ -1,12 +1,17 @@
 db = firebase.database();
 
-var gameInProgress, playerId;
-var playerList=[], readyList=[];
+var gameId, playerId;
+var gameRef, playerCountListener, readyPlayersListener;
 
-/*
-Add a listener for any player changes
- */
-db.ref('player-count').on('value', function(snapshot) {
+
+function addLobbyListeners() {
+  var playerList=[], readyList=[];
+  gameRef = db.ref('openGames').child(gameId);
+
+  /*
+   Add a listener for any player changes
+   */
+  playerCountListener = gameRef.child('player-count').on('value', function(snapshot) {
     if(snapshot.val() < 1) {
       return;
     }
@@ -15,69 +20,10 @@ db.ref('player-count').on('value', function(snapshot) {
       $("#p"+i+" > span").addClass('online');
       playerList.push(i);
     }
-    console.log(snapshot.val());
-    console.log(snapshot.key);
-});
+  }, function(e){console.log(e)});
 
-/*
-If game-in-progress==true then wait
-else create a new player
- */
-
-// Determine whether or not there is a game in progress
-db.ref().once('value', function(snapshot) {
-    var root = snapshot.val();
-    if (root['game-in-progress']===false) {
-        gameInProgress = false;
-    } else if (!root['astronauts']) {
-        gameInProgress = false;
-        db.ref('player-count').set(0);
-        db.ref('game-in-progress').set(false);
-        db.ref('hammers').remove();
-        db.ref('asteroids').remove();
-        db.ref('rocket/powers').update({"sonic-boom": false});
-        db.ref('rocket/powers').update({"oxygen-refill": -1});
-    } else {
-        gameInProgress = true;
-    }
-}).then(function() {
-    if (gameInProgress) {
-        alert("A game is currently in progress. Please wait.");
-    } else {
-        // If a game is not in progress, then this player will join the game
-        console.log("Welcome");
-        // Get my player number (atomically)
-        db.ref('player-count').transaction(function(currCount) {
-          return currCount + 1;
-        }, function(error, committed, snapshot) {
-          if (error) {
-            console.log("Transaction failed abnormally.");
-          } else if (!committed) {
-            console.log("We aborted the transaction.");
-          } else {
-            console.log("transaction successful");
-          }
-          playerId = snapshot.val();
-        }).then(function(){
-
-            if (playerId > 4) {
-              alert("Sorry, the lobby is currently full.");
-              return;
-            } else if (playerId==1) {
-              db.ref('ready-players').set({
-                  1: false, 2: false, 3: false, 4: false
-              });
-            }
-
-            console.log("You are player " + playerId);
-            $("#p"+playerId).addClass('myself');
-        }
-      )
-    }
-});
-
-// Used to change not-ready status to ready status of a given player
-db.ref("ready-players").on("child_changed", function(snapshot) {
+  // Used to change not-ready status to ready status of a given player
+  readyPlayersListener = gameRef.child("ready-players").on("child_changed", function(snapshot) {
     if (snapshot.val()===false) { return; }
 
     var pid = snapshot.key;
@@ -88,15 +34,26 @@ db.ref("ready-players").on("child_changed", function(snapshot) {
 
     // determine if all players are ready
     if (playerList.length===readyList.length) {
-        beginGame();
+      beginGame();
     }
-});
+  });
 
-$(document).ready(function() {
-    $("#readybtn").click(function(){
-        db.ref("ready-players").child(playerId).set(true);
+  // Set player to ready when they click Ready-Button
+  $(document).ready(function() {
+    //$("#readybtn").click(function(){
+    $("#readybtn").on('click', function(){
+      gameRef.child("ready-players").child(playerId).set(true);
     });
-});
+  });
+}
+
+function cancelLobbyListeners() {
+  // cancel the firebase listeners
+  gameRef.child('player-count').off('value', playerCountListener);
+  gameRef.child("ready-players").off('child_changed', readyPlayersListener);
+  // cancel the jQuery listeners
+  $("#readybtn").off('click');
+}
 
 // Redirect user to the game-play page
 function beginGame() {
