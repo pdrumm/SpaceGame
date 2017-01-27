@@ -4,24 +4,31 @@ var db = firebase.database();
 
 /*
 Creates a new game instance in firebase
-Returns: the gameId of the newly created game
+Returns: a Promise containing the new gameId
  */
 function createNewGame() {
-	// Generate a new game instance in the database
-	var newGameKey = db.ref('openGames').push().key;
+	return new Promise(function(resolve, reject) {
+		// Generate a new game instance in the database
+		var newGameKey = db.ref('openGames').push().key;
 
-	var gameRef = db.ref('openGames').child(newGameKey);
-	gameRef.update({
-		"player-count": 0,
-		"ready-players": {
-			1: false,
-			2: false,
-			3: false,
-			4: false
-		}
+		var gameRef = db.ref('openGames').child(newGameKey);
+		gameRef.update({
+			"curr-players": {
+				1: false,
+				2: false,
+				3: false,
+				4: false
+			},
+			"ready-players": {
+				1: false,
+				2: false,
+				3: false,
+				4: false
+			}
+		}).then(
+			resolve(newGameKey)
+		);
 	});
-
-	return newGameKey;
 }
 
 /*
@@ -29,24 +36,89 @@ Hides the list of available games and then reveals the lobby
 area for that game.
  */
 function goToLobby(_gameId, _playerId) {
+	// Cleanup HTML to reflect current game states
+	for (var i=1; i<=4; ++i) {
+		$("#p"+i).removeClass('myself');
+	}
+	$("#p"+_playerId).addClass('myself');
+	// Show the game lobby
 	$('#lobbyContainer').show();
 	$('#gameListContainer').hide();
-	$("#p"+_playerId).addClass('myself');
 	gameId = _gameId;
 	playerId = _playerId;
 	addLobbyListeners();
+}
+
+/*
+Return to the list of available games and
+cancel listeners for the previously selected game
+ */
+function goToGameSelection(_gameId, _playerId) {
+	// Cleanup firebase
+	cleanFirebaseAfterPlayerLeavesGame(_gameId, _playerId);
+	// Cleanup listeners
+	cancelLobbyListeners();
+	// Show Game Selection page
+	$('#lobbyContainer').hide();
+	$('#gameListContainer').show();
+	// Cleanup global vars
+	gameId = undefined;
+	playerId = undefined;
+}
+
+function cleanFirebaseAfterPlayerLeavesGame(_gameId, _playerId) {
+	var gameRef = db.ref('openGames').child(_gameId);
+	gameRef.child('ready-players').child(_playerId).set(false);
+	gameRef.child('curr-players').child(_playerId).set(false);
+	gameRef.child('curr-players').once('value', function(snapshot) {
+		// If there are no players remaining in the game, then delete that game
+		var playersInGame = snapshot.val().reduce(function(total, currVal){
+			return total || currVal;
+		}, false);
+		if (!playersInGame) {
+			gameRef.remove();
+		}
+	});
 }
 
 function joinGame(_gameId) {
 
 	var gameRef = db.ref('openGames').child(_gameId);
 
-	gameRef.child('player-count').transaction(function(currCount) {
+	//gameRef.child('player-count').transaction(function(currCount) {
+	//	// abort if there are already the max number of players
+	//	if (currCount < 4) {
+	//		console.log(currCount);
+	//		return currCount + 1;
+	//	} else {
+	//		return;
+	//	}
+	//
+	//}, function(error, committed, snapshot) {
+	//	if (error) {
+	//		console.log("Transaction failed abnormally.");
+	//	} else if (!committed) {
+	//		// The room was actually full, so inform the user
+	//		alert("Sorry, this game is full.");
+	//		console.log("We aborted the transaction.");
+	//	} else {
+	//		// Move the player into the lobby
+	//		goToLobby(_gameId, snapshot.val());
+	//	}
+	//});
+	var _playerId;
+	gameRef.child('curr-players').transaction(function(currPlayers) {
 		// abort if there are already the max number of players
-		if (currCount < 4) {
-			console.log(currCount);
-			return currCount + 1;
+		if (!currPlayers) {
+			return;
 		} else {
+			for (var pid in currPlayers) {
+				if (currPlayers[pid] === false) {
+					_playerId = pid;
+					currPlayers[pid] = true;
+					return currPlayers;
+				}
+			}
 			return;
 		}
 
@@ -59,7 +131,7 @@ function joinGame(_gameId) {
 			console.log("We aborted the transaction.");
 		} else {
 			// Move the player into the lobby
-			goToLobby(_gameId, snapshot.val());
+			goToLobby(_gameId, _playerId);
 		}
 	});
 }
@@ -73,8 +145,9 @@ $( document ).ready(function() {
 	// Create the new game button
 	var $btn = $('<button id="newGameBtn">New Game</button>');
 	$btn.click(function(e) {
-		gameId = createNewGame();
-		joinGame(gameId);
+		createNewGame().then(function(_gameId){
+			joinGame(_gameId);
+		});
 	});
 	$div.append($btn);
 
