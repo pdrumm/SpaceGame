@@ -1,6 +1,7 @@
+var maxPlayers = 4;
+
 /* Get database connection */
 var db = firebase.database();
-
 
 /*
 Creates a new game instance in firebase
@@ -13,21 +14,57 @@ function createNewGame() {
 
 		var gameRef = db.ref('openGames').child(newGameKey);
 		gameRef.update({
-			"curr-players": {
-				1: false,
-				2: false,
-				3: false,
-				4: false
-			},
-			"ready-players": {
-				1: false,
-				2: false,
-				3: false,
-				4: false
+			"playersReady": {
+				1: false
 			}
 		}).then(
 			resolve(newGameKey)
 		);
+	});
+}
+
+/*
+Uses an atomic Firebase transaction to add a new player to the game selected.
+Upon successful transaction, this function calls goToLobby()
+ */
+function joinGame(_gameId) {
+
+	var gameRef = db.ref('openGames').child(_gameId);
+	var _playerId;
+
+	gameRef.child('playersReady').transaction(function(currPlayers) {
+		// abort if there are already the max number of players
+		if (!currPlayers) {
+			return;
+		} else {
+			var range = [];
+			for (var i=1; i<=maxPlayers; ++i) {
+				range.push(i);
+			}
+			for (var pid in currPlayers) {
+				pid = parseInt(pid);
+				range.splice(range.indexOf(pid), 1);
+			}
+			if (range.length > 0) {
+				_playerId = range[0];
+				currPlayers[_playerId] = false;
+				return currPlayers;
+			} else {
+				return;
+			}
+		}
+
+	}, function(error, committed, snapshot) {
+		if (error) {
+			console.log("Transaction failed abnormally.");
+		} else if (!committed) {
+			// The room was actually full, so inform the user
+			alert("Sorry, this game is full.");
+			console.log("We aborted the transaction.");
+		} else {
+			// Move the player into the lobby
+			goToLobby(_gameId, _playerId);
+		}
 	});
 }
 
@@ -68,72 +105,7 @@ function goToGameSelection(_gameId, _playerId) {
 
 function cleanFirebaseAfterPlayerLeavesGame(_gameId, _playerId) {
 	var gameRef = db.ref('openGames').child(_gameId);
-	gameRef.child('ready-players').child(_playerId).set(false);
-	gameRef.child('curr-players').child(_playerId).set(false);
-	gameRef.child('curr-players').once('value', function(snapshot) {
-		// If there are no players remaining in the game, then delete that game
-		var playersInGame = snapshot.val().reduce(function(total, currVal){
-			return total || currVal;
-		}, false);
-		if (!playersInGame) {
-			gameRef.remove();
-		}
-	});
-}
-
-function joinGame(_gameId) {
-
-	var gameRef = db.ref('openGames').child(_gameId);
-
-	//gameRef.child('player-count').transaction(function(currCount) {
-	//	// abort if there are already the max number of players
-	//	if (currCount < 4) {
-	//		console.log(currCount);
-	//		return currCount + 1;
-	//	} else {
-	//		return;
-	//	}
-	//
-	//}, function(error, committed, snapshot) {
-	//	if (error) {
-	//		console.log("Transaction failed abnormally.");
-	//	} else if (!committed) {
-	//		// The room was actually full, so inform the user
-	//		alert("Sorry, this game is full.");
-	//		console.log("We aborted the transaction.");
-	//	} else {
-	//		// Move the player into the lobby
-	//		goToLobby(_gameId, snapshot.val());
-	//	}
-	//});
-	var _playerId;
-	gameRef.child('curr-players').transaction(function(currPlayers) {
-		// abort if there are already the max number of players
-		if (!currPlayers) {
-			return;
-		} else {
-			for (var pid in currPlayers) {
-				if (currPlayers[pid] === false) {
-					_playerId = pid;
-					currPlayers[pid] = true;
-					return currPlayers;
-				}
-			}
-			return;
-		}
-
-	}, function(error, committed, snapshot) {
-		if (error) {
-			console.log("Transaction failed abnormally.");
-		} else if (!committed) {
-			// The room was actually full, so inform the user
-			alert("Sorry, this game is full.");
-			console.log("We aborted the transaction.");
-		} else {
-			// Move the player into the lobby
-			goToLobby(_gameId, _playerId);
-		}
-	});
+	gameRef.child('playersReady').child(_playerId).remove();
 }
 
 /*
@@ -146,7 +118,8 @@ $( document ).ready(function() {
 	var $btn = $('<button id="newGameBtn">New Game</button>');
 	$btn.click(function(e) {
 		createNewGame().then(function(_gameId){
-			joinGame(_gameId);
+			var _playerId = 1;
+			goToLobby(_gameId, _playerId);
 		});
 	});
 	$div.append($btn);
@@ -178,4 +151,3 @@ $( document ).ready(function() {
 		$li.remove();
 	})
 });
-
